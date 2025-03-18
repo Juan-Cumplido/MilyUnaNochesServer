@@ -74,6 +74,9 @@
     <Compile Include="Contracts\IAdressManager.cs" />
     <Compile Include="Contracts\IProviderManager.cs" />
     <Compile Include="Contracts\IUserManager.cs" />
+    <Compile Include="Contracts\IUserSessionManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Logic\Address.cs" />
     <Compile Include="Logic\Provider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
