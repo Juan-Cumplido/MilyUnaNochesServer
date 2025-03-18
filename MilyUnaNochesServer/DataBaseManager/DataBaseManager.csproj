@@ -102,6 +102,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MilYUnaNocheDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Operations\ProviderOperation.cs" />
     <Compile Include="Operations\UserOperation.cs" />
     <Compile Include="Producto.cs">
       <DependentUpon>MilYUnaNocheDataModel.tt</DependentUpon>
