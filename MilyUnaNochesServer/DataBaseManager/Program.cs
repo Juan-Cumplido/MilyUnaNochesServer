@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataBaseManager.Operations {
-    internal class UserOperation {
+namespace DataBaseManager {
+    internal class Program {
+        static void Main(string[] args) {
+        }
     }
 }
