@@ -28,6 +28,9 @@ namespace MilyUnaNochesService.Utilities
         {
             Logger.Error(exception);
         }
+        public void LogError(string message, Exception exception) {
+            Logger.Error(message, exception);
+        }
 
         public void LogFatal(Exception exception)
         {
