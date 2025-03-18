@@ -1,5 +1,4 @@
-﻿using MilyUnaNochesService.Contracts;
-using MilyUnaNochesService.Logic;
+﻿using MilyUnaNochesService.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MilyUnaNochesServer.Contracts {
+namespace MilyUnaNochesService.Contracts {
     [ServiceContract]
     public interface IProviderManager {
         [OperationContract]

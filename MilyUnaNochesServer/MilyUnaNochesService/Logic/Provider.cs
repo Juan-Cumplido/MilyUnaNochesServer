@@ -11,7 +11,7 @@ namespace MilyUnaNochesService.Logic {
         [DataMember]
         public int IdProvider { get; set; }
         [DataMember]
-        public int idAdress { get; set; }
+        public int idAddress { get; set; }
         [DataMember]
         public string providerName { get; set; }
         [DataMember]
