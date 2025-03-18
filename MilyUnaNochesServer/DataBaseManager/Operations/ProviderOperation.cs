@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataBaseManager.Operations {
-    public static class ProviderOperation { 
+    public static class ProviderOperation {
         public static int AddProvider(Proveedor provider) {
             LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
             int operationStatus = Constants.ErrorOperation;
@@ -22,9 +22,10 @@ namespace DataBaseManager.Operations {
                         contacto = provider.contacto,
                         telefono = provider.telefono,
                         correo = provider.correo,
-                        estadoProveedor = provider.estadoProveedor,
                         idDireccion = provider.idDireccion,
+                        estadoProveedor = "ACTIVO"
                     };
+
                     db.Proveedor.Add(newProvider);
                     db.SaveChanges();
                     operationStatus = Constants.SuccessOperation;
@@ -61,17 +62,16 @@ namespace DataBaseManager.Operations {
             LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
             int operationStatus = Constants.ErrorOperation;
             try {
-                using (MilYUnaNochesEntities db =  new MilYUnaNochesEntities()){
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
                     Proveedor provider = db.Proveedor.FirstOrDefault(p => p.idProveedor == idProvider);
                     if (provider != null) {
                         provider.estadoProveedor = "Inactivo";
                         db.SaveChanges();
                         operationStatus = Constants.SuccessOperation;
-                    }
-                    else {
+                    } else {
                         operationStatus = Constants.NoDataMatches;
                     }
-                } 
+                }
             } catch (EntityException entityException) {
                 logger.LogError($"EntityException: An error occurred trying to archive the provider. Exception: {entityException.Message}", entityException);
             } catch (SqlException sqlException) {

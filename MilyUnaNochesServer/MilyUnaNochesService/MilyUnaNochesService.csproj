@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataBaseManager\DataBaseManager.csproj">
-      <Project>{fa6c8b5d-0071-483d-99ba-9446d7f48f61}</Project>
+      <Project>{498602a9-6b2a-40fe-a262-76f46a3c7d45}</Project>
       <Name>DataBaseManager</Name>
     </ProjectReference>
   </ItemGroup>
