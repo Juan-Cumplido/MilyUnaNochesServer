@@ -17,7 +17,7 @@ namespace MilyUnaNochesService.Logic {
         [DataMember]
         public string providerContact {  get; set; }
         [DataMember]
-        public int phoneNumber { get; set; }
+        public string phoneNumber { get; set; }
         [DataMember]
         public string email { get; set; }
         [DataMember]
