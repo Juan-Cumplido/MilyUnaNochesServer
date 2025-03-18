@@ -12,5 +12,14 @@ namespace MilyUnaNochesServer.Contracts {
     public interface IProviderManager {
         [OperationContract]
         int CreateProvider(Provider newProvider);
+
+        [OperationContract]
+        List<Provider> GetProviders();
+
+        [OperationContract]
+        int ArchiveProvider(int idProvider);
+
+        [OperationContract]
+        int DeleteProvider(int idProvider);
     }
 }
