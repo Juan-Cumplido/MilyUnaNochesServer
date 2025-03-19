@@ -5,9 +5,9 @@ namespace MilyUnaNochesService.Services
 {
     public partial class MilyUnaNochesService : IUserManager
     {
-        public int AddUser(Profile profile)
+        /*public int AddUser(Profile profile)
         {
             throw new System.NotImplementedException();
-        }
+        }*/
     }
 }
