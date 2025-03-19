@@ -1,10 +1,13 @@
-﻿namespace MilyUnaNochesService.Utilities
-{
-    public class Enumerations
-    {
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-        public enum userStatus
-        {
+namespace MilyUnaNochesService.Utilities {
+    public class Enumerations {
+
+        public enum userStatus {
             Active,
             filed
         }

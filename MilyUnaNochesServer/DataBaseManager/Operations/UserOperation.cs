@@ -6,6 +6,9 @@ using System.Linq;
 using System.Web.ModelBinding;
 using System;
 
+
+namespace DataBaseManager.Operations {
+    internal class UserOperation {
 namespace DataBaseManager.Operations
 {
     public class UserOperation

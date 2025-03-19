@@ -1,7 +1,11 @@
-﻿namespace MilyUnaNochesService.Utilities
-{
-    public static class Constants
-    {
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MilyUnaNochesService.Utilities {
+    public static class Constants {
         public const int ErrorOperation = -1;
         public const int SuccessOperation = 1;
         public const int NoDataMatches = 0;
