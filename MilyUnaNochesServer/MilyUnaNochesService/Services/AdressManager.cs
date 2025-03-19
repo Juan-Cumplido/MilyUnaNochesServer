@@ -1,4 +1,5 @@
-﻿using DataBaseManager.Operations;
+﻿using DataBaseManager;
+using DataBaseManager.Operations;
 using MilyUnaNochesService.Contracts;
 using MilyUnaNochesService.Logic;
 using System;
@@ -18,6 +19,10 @@ namespace MilyUnaNochesService.Services {
             };
             int insertionResult = AddressOperation.CreateAddress(newAddress);
             return insertionResult;
+        }
+
+        public Address GetAddress(int idDireccion) {
+            throw new NotImplementedException();
         }
     }
 }

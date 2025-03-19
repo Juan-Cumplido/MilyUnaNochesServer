@@ -22,5 +22,7 @@ namespace MilyUnaNochesService.Logic {
         public string email { get; set; }
         [DataMember]
         public string password { get; set; }
+        [DataMember]
+        public string providerAddress { get; set; }
     }
 }
