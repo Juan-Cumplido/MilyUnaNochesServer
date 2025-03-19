@@ -36,12 +36,20 @@ namespace MilyUnaNochesService.Services {
             List<Proveedor> providersList = ProviderOperation.GetRegisteredProviders();
             List<Provider> providers = new List<Provider>();
             foreach (Proveedor providerEntity in providersList) {
+
+                Direccion addressData = AddressOperation.GetAddress(providerEntity.idDireccion);
+
+                string addressText = addressData != null
+                 ? $"{addressData.calle} {addressData.numero}, {addressData.ciudad}. CP: {addressData.codigoPostal}"
+                : "Sin dirección";
+
                 Provider provider = new Provider {
                     IdProvider = providerEntity.idProveedor,
                     providerName = providerEntity.nombreProveedor,
                     providerContact = providerEntity.contacto,
                     phoneNumber = providerEntity.telefono,
-                    email = providerEntity.correo
+                    email = providerEntity.correo,
+                    providerAddress = addressText
                 };
                 providers.Add(provider);
             }

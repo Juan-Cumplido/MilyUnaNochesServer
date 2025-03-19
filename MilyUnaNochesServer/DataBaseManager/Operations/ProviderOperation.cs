@@ -85,21 +85,35 @@ namespace DataBaseManager.Operations {
             int operationStatus = Constants.ErrorOperation;
             try {
                 using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
-                    Proveedor provider = db.Proveedor.FirstOrDefault(p => p.idProveedor == idProvider);
-                    if (provider != null) {
-                        db.Proveedor.Remove(provider);
-                        db.SaveChanges();
-                        operationStatus = Constants.SuccessOperation;
-                    } else {
-                        operationStatus = Constants.NoDataMatches;
+                    using (var transaction = db.Database.BeginTransaction()) {
+                        try {
+                            Proveedor provider = db.Proveedor.FirstOrDefault(p => p.idProveedor == idProvider);
+                            if (provider == null) {
+                                return Constants.NoDataMatches;
+                            }
+                            int idDireccion = provider.idDireccion;
+
+                            db.Proveedor.Remove(provider);
+                            db.SaveChanges();
+
+                            Direccion direccion = db.Direccion.Find(idDireccion);
+                            if (direccion != null) {
+                                db.Direccion.Remove(direccion);
+                                db.SaveChanges();
+                            }
+
+                            transaction.Commit();
+                            operationStatus = Constants.SuccessOperation;
+                        } catch (Exception ex) {
+                            transaction.Rollback();
+                            logger.LogError($"Error al eliminar proveedor y dirección: {ex.Message}", ex);
+                            operationStatus = Constants.ErrorOperation;
+                        }
                     }
                 }
-            } catch (EntityException entityException) {
-                logger.LogError($"EntityException: An error occurred while deleting the provider. Exception: {entityException.Message}", entityException);
-            } catch (SqlException sqlException) {
-                logger.LogError($"SqlException: An error occurred while deleting the provider. Exception: {sqlException.Message}", sqlException);
-            } catch (Exception generalException) {
-                logger.LogError($"Exception: Unexpected error occurred while deleting provider {idProvider}. Exception: {generalException.Message}", generalException);
+            } catch (Exception ex) {
+                logger.LogError($"Error al acceder a la base de datos: {ex.Message}", ex);
+                operationStatus = Constants.ErrorOperation;
             }
             return operationStatus;
         }

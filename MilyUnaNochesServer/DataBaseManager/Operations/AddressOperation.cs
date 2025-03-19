@@ -8,6 +8,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace DataBaseManager.Operations {
     public static class AddressOperation {
@@ -26,6 +27,25 @@ namespace DataBaseManager.Operations {
                 logger.LogError($"Exception: Error trying to register address. Exception: {exception.Message}", exception);
             }
             return idCreated;
+        }
+        public static Direccion GetAddress(int idDireccion) {
+            Direccion directionResult = new Direccion();
+            try {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
+                    var directionEntity = db.Direccion.FirstOrDefault(d => d.idDireccion == idDireccion);
+
+                    if (directionEntity == null) {
+                        directionResult.idDireccion = Constants.NoDataMatches;
+                    } else {
+                        directionResult = directionEntity;
+                    }
+                }
+            } catch (EntityException entityException) {
+                directionResult.idDireccion = Constants.ErrorOperation;
+            } catch (Exception exception) {
+                directionResult.idDireccion = Constants.ErrorOperation;
+            }
+            return directionResult;
         }
     }
 }
