@@ -53,7 +53,7 @@ namespace MilyUnaNochesService.Contracts
     }
 
     [DataContract]
-    public class Direccion
+    public class UserDireccion
     {
         [DataMember]
         public int idDireccion { get; set; }
