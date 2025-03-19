@@ -11,5 +11,7 @@ namespace MilyUnaNochesService.Contracts {
     public interface IAdressManager {
         [OperationContract]
         int createAddress(Address address);
+        [OperationContract]
+        Address GetAddress(int idDireccion);
     }
 }
