@@ -10,8 +10,6 @@ using System.Xml.Linq;
 using log4net.Repository.Hierarchy;
 
 
-namespace DataBaseManager.Operations {
-    internal class UserOperation {
 namespace DataBaseManager.Operations
 {
     public class UserOperation
