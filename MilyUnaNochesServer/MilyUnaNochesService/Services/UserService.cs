@@ -26,7 +26,7 @@ namespace MilyUnaNochesService.Services
             return insertionResult;
         }
 
-        public int AddEmployee(Contracts.Usuario user, Contracts.Direccion address, Contracts.Empleado employee, Contracts.Acceso acces)
+        public int AddEmployee(Contracts.Usuario user, Contracts.UserDireccion address, Contracts.Empleado employee, Contracts.Acceso acces)
         {
             UserOperation operations = new UserOperation();
             DataBaseManager.Usuario newUser = new DataBaseManager.Usuario()
