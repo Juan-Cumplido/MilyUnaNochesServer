@@ -12,7 +12,7 @@ namespace MilyUnaNochesService.Contracts
         int AddClient(Usuario usuario);
 
         [OperationContract]
-        int AddEmployee(Usuario user, Direccion address, Empleado employee, Acceso acces);
+        int AddEmployee(Usuario user, UserDireccion address, Empleado employee, Acceso acces);
         [OperationContract]
         int ArchiveClient(int idUsuario);
 
