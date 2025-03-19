@@ -118,10 +118,11 @@
     <Compile Include="Usuario.cs">
       <DependentUpon>MilYUnaNocheDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\EmployeeData.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Utilities\LoggerManager.cs" />
-    <Compile Include="Utilities\UserData.cs" />
+    <Compile Include="Utilities\ClientData.cs" />
     <Compile Include="Venta.cs">
       <DependentUpon>MilYUnaNocheDataModel.tt</DependentUpon>
     </Compile>
