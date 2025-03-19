@@ -72,10 +72,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IAdressManager.cs" />
+    <Compile Include="Contracts\IProductsManager.cs" />
     <Compile Include="Contracts\IProviderManager.cs" />
     <Compile Include="Contracts\IUserManager.cs" />
     <Compile Include="Contracts\IUserSessionManager.cs" />
+    <Compile Include="Logic\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ProductManager.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Logic\Address.cs" />
     <Compile Include="Logic\Provider.cs" />
@@ -92,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataBaseManager\DataBaseManager.csproj">
-      <Project>{fa6c8b5d-0071-483d-99ba-9446d7f48f61}</Project>
+      <Project>{498602a9-6b2a-40fe-a262-76f46a3c7d45}</Project>
       <Name>DataBaseManager</Name>
     </ProjectReference>
   </ItemGroup>
