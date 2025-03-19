@@ -333,3 +333,7 @@ MilyUnaNochesServer/MilyUnaNochesServer/bin
 MilyUnaNochesServer/MilyUnaNochesServer/obj
 MilyUnaNochesServer/MilyUnaNochesService/bin
 MilyUnaNochesServer/MilyUnaNochesService/obj
+
+MilyUnaNochesServer/MilyUnaNochesServer/DataBaseManager/App.config
+MilyUnaNochesServer/MilyUnaNochesServer/MilyUnaNochesServer/App.config
+MilyUnaNochesServer/MilyUnaNochesServer/MilyUnaNochesService/App.config
