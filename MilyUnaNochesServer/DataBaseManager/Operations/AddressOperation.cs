@@ -47,5 +47,29 @@ namespace DataBaseManager.Operations {
             }
             return directionResult;
         }
+
+        public static bool DeleteAddress(int idDireccion) {
+            LoggerManager logger = new LoggerManager(typeof(AddressOperation));
+            bool isDeleted = false;
+
+            try {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
+                    var direccionToDelete = db.Direccion.FirstOrDefault(d => d.idDireccion == idDireccion);
+
+                    if (direccionToDelete != null) {
+                        db.Direccion.Remove(direccionToDelete);
+                        db.SaveChanges();
+                        isDeleted = true;
+                    }
+                }
+            } catch (EntityException entityException) {
+                logger.LogError($"EntityException: Error al intentar eliminar la dirección. Excepción: {entityException.Message}", entityException);
+            } catch (DbEntityValidationException dbEntityValidationException) {
+                logger.LogError($"DbEntityValidationException: Error de validación al intentar eliminar la dirección. Excepción: {dbEntityValidationException.Message}", dbEntityValidationException);
+            } catch (Exception exception) {
+                logger.LogError($"Exception: Error inesperado al intentar eliminar la dirección. Excepción: {exception.Message}", exception);
+            }
+            return isDeleted;
+        }
     }
 }
