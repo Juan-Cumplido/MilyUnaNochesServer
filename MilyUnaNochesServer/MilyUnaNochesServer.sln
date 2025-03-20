@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MilyUnaNochesService", "Mil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseManager", "DataBaseManager\DataBaseManager.csproj", "{498602A9-6B2A-40FE-A262-76F46A3C7D45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{2773D882-8B4D-4DE1-B42A-70E7823397AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{498602A9-6B2A-40FE-A262-76F46A3C7D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{498602A9-6B2A-40FE-A262-76F46A3C7D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{498602A9-6B2A-40FE-A262-76F46A3C7D45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2773D882-8B4D-4DE1-B42A-70E7823397AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2773D882-8B4D-4DE1-B42A-70E7823397AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2773D882-8B4D-4DE1-B42A-70E7823397AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2773D882-8B4D-4DE1-B42A-70E7823397AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
