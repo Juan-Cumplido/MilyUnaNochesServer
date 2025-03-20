@@ -46,13 +46,33 @@ namespace DataBaseManager.Operations {
             List<Proveedor> providers = new List<Proveedor>();
             try {
                 using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
-                    providers = db.Proveedor.ToList();
+                    providers = db.Proveedor.Where(p => p.estadoProveedor == "ACTIVO").ToList();
                 }
             } catch (EntityException entityException) {
-                logger.LogError($"EntityException: An error occurred while retrieving providers. Exception: {entityException.Message}", entityException);
+                logger.LogError($"EntityException: An error occurred while retrieving active providers. Exception: {entityException.Message}", entityException);
                 providers.Add(operationFailed);
             } catch (SqlException sqlException) {
-                logger.LogError($"SqlException: An error occurred while retrieving providers. Exception: {sqlException.Message}", sqlException);
+                logger.LogError($"SqlException: An error occurred while retrieving active providers. Exception: {sqlException.Message}", sqlException);
+                providers.Add(operationFailed);
+            }
+            return providers;
+        }
+
+        public static List<Proveedor> GetArchivedProviders() {
+            LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
+            Proveedor operationFailed = new Proveedor() {
+                idProveedor = Constants.ErrorOperation
+            };
+            List<Proveedor> providers = new List<Proveedor>();
+            try {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
+                    providers = db.Proveedor.Where(p => p.estadoProveedor == "ARCHIVADO").ToList();
+                }
+            } catch (EntityException entityException) {
+                logger.LogError($"EntityException: An error occurred while retrieving archived providers. Exception: {entityException.Message}", entityException);
+                providers.Add(operationFailed);
+            } catch (SqlException sqlException) {
+                logger.LogError($"SqlException: An error occurred while retrieving archived providers. Exception: {sqlException.Message}", sqlException);
                 providers.Add(operationFailed);
             }
             return providers;
@@ -65,7 +85,7 @@ namespace DataBaseManager.Operations {
                 using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
                     Proveedor provider = db.Proveedor.FirstOrDefault(p => p.idProveedor == idProvider);
                     if (provider != null) {
-                        provider.estadoProveedor = "Inactivo";
+                        provider.estadoProveedor = "ARCHIVADO";
                         db.SaveChanges();
                         operationStatus = Constants.SuccessOperation;
                     } else {
@@ -76,6 +96,28 @@ namespace DataBaseManager.Operations {
                 logger.LogError($"EntityException: An error occurred trying to archive the provider. Exception: {entityException.Message}", entityException);
             } catch (SqlException sqlException) {
                 logger.LogError($"SqlException: An error occurred trying to archive the provider. Exception: {sqlException.Message}", sqlException);
+            }
+            return operationStatus;
+        }
+
+        public static int UnArchiveProvider(int idProvider) {
+            LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
+            int operationStatus = Constants.ErrorOperation;
+            try {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
+                    Proveedor provider = db.Proveedor.FirstOrDefault(p => p.idProveedor == idProvider);
+                    if (provider != null) {
+                        provider.estadoProveedor = "ACTIVO";
+                        db.SaveChanges();
+                        operationStatus = Constants.SuccessOperation;
+                    } else {
+                        operationStatus = Constants.NoDataMatches;
+                    }
+                }
+            } catch (EntityException entityException) {
+                logger.LogError($"EntityException: An error occurred trying to unarchive the provider. Exception: {entityException.Message}", entityException);
+            } catch (SqlException sqlException) {
+                logger.LogError($"SqlException: An error occurred trying to unarchive the provider. Exception: {sqlException.Message}", sqlException);
             }
             return operationStatus;
         }
@@ -106,18 +148,37 @@ namespace DataBaseManager.Operations {
                             operationStatus = Constants.SuccessOperation;
                         } catch (Exception ex) {
                             transaction.Rollback();
-                            logger.LogError($"Error al eliminar proveedor y dirección: {ex.Message}", ex);
+                            logger.LogError($"Error trying to delete provider and his/her direction: {ex.Message}", ex);
                             operationStatus = Constants.ErrorOperation;
                         }
                     }
                 }
-            } catch (Exception ex) {
-                logger.LogError($"Error al acceder a la base de datos: {ex.Message}", ex);
+            } catch (EntityException entityException) {
+                logger.LogError($"EntityException: {entityException.Message}", entityException);
                 operationStatus = Constants.ErrorOperation;
+            } catch (SqlException sqlException) {
+                logger.LogError($"SQLException: {sqlException.Message}", sqlException);
             }
             return operationStatus;
         }
 
-
+        public static int VerifyProviderInDataBase(string providerName) {
+            LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
+            int verificationResult = Constants.ErrorOperation;
+            try {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
+                    if (db.Proveedor.Any(p => p.nombreProveedor == providerName)) {
+                        verificationResult = Constants.DataMatches;
+                    } else {
+                        verificationResult = Constants.NoDataMatches;
+                    }
+                }
+            } catch (EntityException entityException) {
+                logger.LogError($"Error al verificar proveedor: {entityException.Message}", entityException);
+            } catch (SqlException sqlException) {
+                logger.LogError($"Error de SQL al verificar proveedor: {sqlException.Message}", sqlException);
+            }
+            return verificationResult;
+        }
     }
 }
