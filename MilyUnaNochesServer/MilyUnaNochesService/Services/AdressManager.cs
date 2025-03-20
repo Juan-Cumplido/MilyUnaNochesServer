@@ -22,7 +22,14 @@ namespace MilyUnaNochesService.Services {
         }
 
         public Address GetAddress(int idDireccion) {
-            throw new NotImplementedException();
+            Direccion direccion = AddressOperation.GetAddress(idDireccion);
+            Address address = new Address() {
+                Calle = direccion.calle,
+                Numero = direccion.numero,
+                Ciudad = direccion.ciudad,
+                CodigoPostal = direccion.codigoPostal
+            };
+            return address; 
         }
     }
 }

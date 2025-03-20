@@ -16,9 +16,18 @@ namespace MilyUnaNochesService.Contracts {
         List<Provider> GetProviders();
 
         [OperationContract]
+        List<Provider> GetArchivedProviders();
+
+        [OperationContract]
         int ArchiveProvider(int idProvider);
 
         [OperationContract]
         int DeleteProvider(int idProvider);
+
+        [OperationContract]
+        int VerifyProviderExistance(string providerName);
+
+        [OperationContract]
+        int UnArchiveProvider(int idProvider);
     }
 }
