@@ -1,14 +1,20 @@
 ﻿using MilyUnaNochesService.Contracts;
 using MilyUnaNochesService.UtilitiesService;
-using DataBaseManager.Operations;
 
 namespace MilyUnaNochesService.Services
 {
     public partial class MilyUnaNochesService : IUserManager
     {
-        public int AddUser(Profile profile)
+<<<<<<< HEAD
+        //public int AddUser(Profile profile)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+=======
+        /*public int AddUser(Profile profile)
         {
             throw new System.NotImplementedException();
-        }
+        }*/
+>>>>>>> ceb9648d8e7a9842dac276c52b105489b6fef298
     }
 }
