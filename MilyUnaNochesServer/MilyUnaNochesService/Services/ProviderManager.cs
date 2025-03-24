@@ -57,7 +57,6 @@ namespace MilyUnaNochesService.Services {
             }
             return providers;
         }
-
         public List<Provider> GetProviders() {
             List<Proveedor> providersList = ProviderOperation.GetRegisteredProviders();
             List<Provider> providers = new List<Provider>();
@@ -92,6 +91,39 @@ namespace MilyUnaNochesService.Services {
             int providerExistance;
             providerExistance = ProviderOperation.VerifyProviderInDataBase(providerName);
             return providerExistance;
+        }
+
+        public Provider GetSupplier(int idProvider) {
+            var query = ProviderOperation.GetSupplierInfo(idProvider);
+            Provider provider = new Provider() {
+                IdProvider = query.idProveedor,
+                email = query.correo,
+                providerContact = query.contacto,
+                phoneNumber = query.telefono,
+                providerName = query.nombreProveedor
+            };
+            return provider;
+        }
+
+        public int EditSupplier(Provider providerInfo, Address addressInfo) {
+            int operationResult;
+            Proveedor newProviderInfo = new Proveedor() {
+                idProveedor = providerInfo.IdProvider,
+                idDireccion = providerInfo.idAddress,
+                nombreProveedor = providerInfo.providerName,
+                contacto = providerInfo.providerContact,
+                correo = providerInfo.email,
+                telefono = providerInfo.phoneNumber
+            };
+
+            Direccion newAddressInfo = new Direccion() {
+                calle = addressInfo.Calle,
+                numero = addressInfo.Numero,
+                codigoPostal = addressInfo.CodigoPostal,
+                ciudad = addressInfo.Ciudad
+            };
+            operationResult = ProviderOperation.EditSupplierInfo(newProviderInfo, newAddressInfo);
+            return operationResult;
         }
     }
 }
