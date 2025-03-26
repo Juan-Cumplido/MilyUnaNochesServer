@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MilYUnaNochesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MilYUnaNochesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Acceso">
           <Key>
             <PropertyRef Name="idAcceso" />
@@ -40,6 +40,8 @@
           <Property Name="fecha" Type="date" Nullable="false" />
           <Property Name="hora" Type="time" Precision="7" Nullable="false" />
           <Property Name="montoTotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="metodoPago" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="contactoProveedor" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Direccion">
           <Key>
@@ -107,6 +109,7 @@
           <Property Name="fecha" Type="date" Nullable="false" />
           <Property Name="montoTotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="metodoPago" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="VentaProducto">
           <Key>
@@ -311,8 +314,7 @@
             <End Role="VentaProducto" EntitySet="VentaProducto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MilYUnaNochesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -357,6 +359,8 @@
           <Property Name="montoTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="CompraProducto" Relationship="Self.FK__CompraPro__idCom__5629CD9C" FromRole="CompraProveedor" ToRole="CompraProducto" />
           <NavigationProperty Name="Proveedor" Relationship="Self.FK__CompraPro__idPro__4E88ABD4" FromRole="CompraProveedor" ToRole="Proveedor" />
+          <Property Name="metodoPago" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="contactoProveedor" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Direccion">
           <Key>
@@ -438,6 +442,7 @@
           <Property Name="hora" Type="Time" Nullable="false" Precision="7" />
           <NavigationProperty Name="Empleado" Relationship="Self.FK__Venta__idEmplead__4AB81AF0" FromRole="Venta" ToRole="Empleado" />
           <NavigationProperty Name="VentaProducto" Relationship="Self.FK__VentaProd__idVen__52593CB8" FromRole="Venta" ToRole="VentaProducto" />
+          <Property Name="metodoPago" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="VentaProducto">
           <Key>
@@ -681,6 +686,8 @@
           <EntitySetMapping Name="CompraProveedor">
             <EntityTypeMapping TypeName="MilYUnaNochesModel.CompraProveedor">
               <MappingFragment StoreEntitySet="CompraProveedor">
+                <ScalarProperty Name="contactoProveedor" ColumnName="contactoProveedor" />
+                <ScalarProperty Name="metodoPago" ColumnName="metodoPago" />
                 <ScalarProperty Name="idCompra" ColumnName="idCompra" />
                 <ScalarProperty Name="idProveedor" ColumnName="idProveedor" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
@@ -754,6 +761,7 @@
           <EntitySetMapping Name="Venta">
             <EntityTypeMapping TypeName="MilYUnaNochesModel.Venta">
               <MappingFragment StoreEntitySet="Venta">
+                <ScalarProperty Name="metodoPago" ColumnName="metodoPago" />
                 <ScalarProperty Name="idVenta" ColumnName="idVenta" />
                 <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
