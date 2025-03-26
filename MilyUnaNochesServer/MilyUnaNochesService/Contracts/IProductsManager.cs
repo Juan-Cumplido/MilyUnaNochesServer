@@ -16,5 +16,6 @@ namespace MilyUnaNochesService.Contracts
         bool SaveProduct(Product product);
         [OperationContract]
         List<Product> GetProducts();
+
     }
 }
