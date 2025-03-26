@@ -207,18 +207,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Proveedor__idDir__45F365D3">
-          <End Role="Direccion" Type="Self.Direccion" Multiplicity="1" />
-          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Direccion">
-              <PropertyRef Name="idDireccion" />
-            </Principal>
-            <Dependent Role="Proveedor">
-              <PropertyRef Name="idDireccion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Venta__idEmplead__4AB81AF0">
           <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
           <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
@@ -254,6 +242,20 @@
             </Principal>
             <Dependent Role="VentaProducto">
               <PropertyRef Name="idVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proveedor_Direccion">
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direccion">
+              <PropertyRef Name="idDireccion" />
+            </Principal>
+            <Dependent Role="Proveedor">
+              <PropertyRef Name="idDireccion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -297,10 +299,6 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Empleado" EntitySet="Empleado" />
           </AssociationSet>
-          <AssociationSet Name="FK__Proveedor__idDir__45F365D3" Association="Self.FK__Proveedor__idDir__45F365D3">
-            <End Role="Direccion" EntitySet="Direccion" />
-            <End Role="Proveedor" EntitySet="Proveedor" />
-          </AssociationSet>
           <AssociationSet Name="FK__Venta__idEmplead__4AB81AF0" Association="Self.FK__Venta__idEmplead__4AB81AF0">
             <End Role="Empleado" EntitySet="Empleado" />
             <End Role="Venta" EntitySet="Venta" />
@@ -312,6 +310,10 @@
           <AssociationSet Name="FK__VentaProd__idVen__52593CB8" Association="Self.FK__VentaProd__idVen__52593CB8">
             <End Role="Venta" EntitySet="Venta" />
             <End Role="VentaProducto" EntitySet="VentaProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proveedor_Direccion" Association="Self.FK_Proveedor_Direccion">
+            <End Role="Direccion" EntitySet="Direccion" />
+            <End Role="Proveedor" EntitySet="Proveedor" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>

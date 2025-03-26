@@ -1,4 +1,5 @@
-﻿using MilyUnaNochesService.Logic;
+﻿using DataBaseManager;
+using MilyUnaNochesService.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,5 +30,10 @@ namespace MilyUnaNochesService.Contracts {
 
         [OperationContract]
         int UnArchiveProvider(int idProvider);
+
+        [OperationContract]
+        Provider GetSupplier(int idProvider);
+        [OperationContract]
+        int EditSupplier(Provider newProviderInfo, Address newAddressInfo);
     }
 }
