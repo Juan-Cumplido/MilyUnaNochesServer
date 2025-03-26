@@ -25,6 +25,7 @@ namespace DataBaseManager
         public System.DateTime fecha { get; set; }
         public decimal montoTotal { get; set; }
         public System.TimeSpan hora { get; set; }
+        public string metodoPago { get; set; }
     
         public virtual Empleado Empleado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
