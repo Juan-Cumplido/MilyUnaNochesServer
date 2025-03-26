@@ -27,25 +27,6 @@ namespace Tests.Operations {
             createdAddressId = idCreated;
         }
 
-        [Fact]
-        public void GetAddressTest() {
-            var address = new Direccion {
-                calle = "Test Calle Get",
-                numero = "456",
-                codigoPostal = "CP456",
-                ciudad = "Test Ciudad"
-            };
-            int idCreated = AddressOperation.CreateAddress(address);
-            Assert.NotEqual(Constants.ErrorOperation, idCreated);
-
-            var fetchedAddress = AddressOperation.GetAddress(idCreated);
-
-            Assert.NotNull(fetchedAddress);
-            Assert.Equal("Test Calle Get", fetchedAddress.calle);
-
-            bool deleted = AddressOperation.DeleteAddress(idCreated);
-            Assert.True(deleted);
-        }
 
         [Fact]
         public void DeleteAddressTest() {

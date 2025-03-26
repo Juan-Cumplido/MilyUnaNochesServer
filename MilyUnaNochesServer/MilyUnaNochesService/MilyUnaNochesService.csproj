@@ -77,6 +77,8 @@
     <Compile Include="Contracts\IUserManager.cs" />
     <Compile Include="Contracts\IUserSessionManager.cs" />
     <Compile Include="Logic\Product.cs" />
+    <Compile Include="Logic\ConsultPurchase.cs" />
+    <Compile Include="Logic\RegisterPurchase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ProductManager.cs" />
     <Compile Include="Services\UserService.cs" />
