@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="753eceedaac54443ba1c5feecae66618" Name="Diagram1">
+      <Diagram DiagramId="753eceedaac54443ba1c5feecae66618" Name="Diagram1" ZoomLevel="60">
         <EntityTypeShape EntityType="MilYUnaNochesModel.Acceso" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MilYUnaNochesModel.Cliente" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="MilYUnaNochesModel.CompraProducto" Width="1.5" PointX="7.5" PointY="10.875" IsExpanded="true" />
@@ -27,6 +27,7 @@
         <AssociationConnector Association="MilYUnaNochesModel.FK__Venta__idEmplead__4AB81AF0" ManuallyRouted="false" />
         <AssociationConnector Association="MilYUnaNochesModel.FK__VentaProd__idPro__534D60F1" ManuallyRouted="false" />
         <AssociationConnector Association="MilYUnaNochesModel.FK__VentaProd__idVen__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="MilYUnaNochesModel.FK_Venta_Cliente" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

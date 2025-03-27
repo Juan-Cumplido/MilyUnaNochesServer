@@ -17,10 +17,8 @@ namespace MilyUnaNochesService.Contracts
 
         [OperationContract]
         List<Product> GetProducts();
-
-
+      
         [OperationContract]
         bool ValidateProductName(string productName);
-
     }
 }
