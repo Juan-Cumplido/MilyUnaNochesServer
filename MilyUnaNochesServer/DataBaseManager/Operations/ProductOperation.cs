@@ -68,6 +68,7 @@ namespace DataBaseManager.Operations
             }
         }
 
+
         public static Producto GetProductByCode(string code) {
             var logger = new LoggerManager(typeof(ProductOperation));
 
@@ -102,6 +103,24 @@ namespace DataBaseManager.Operations
             } catch (Exception ex) {
                 logger.LogError($"Error al verificar stock: {productCode}", ex);
                 return false;
+
+        public static bool ValidateProductName(string productName)
+        {
+            try
+            {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities())
+                {
+                    bool exist = db.Producto
+                                  .Any(p => p.nombreProducto.ToLower() == productName.ToLower());
+
+                    return !exist;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al validar el nombre del producto: {ex.Message}");
+                throw; 
+
             }
         }
     }
