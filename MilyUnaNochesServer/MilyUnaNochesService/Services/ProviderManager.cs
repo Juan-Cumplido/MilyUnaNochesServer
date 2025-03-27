@@ -57,6 +57,7 @@ namespace MilyUnaNochesService.Services {
             }
             return providers;
         }
+
         public List<Provider> GetProviders() {
             List<Proveedor> providersList = ProviderOperation.GetRegisteredProviders();
             List<Provider> providers = new List<Provider>();
