@@ -55,6 +55,52 @@ namespace MilyUnaNochesService.Services
                 throw; 
             }
         }
+        public async Task<Product> GetProductByCodeAsync(string productCode) {
+            return await Task.Run(() =>
+            {
+                var producto = ProductOperation.GetProductByCode(productCode);
+                if (producto == null) return null;
+
+                return new Product {
+                    IdProducto = producto.idProducto,
+                    CodigoProducto = producto.codigoProducto,
+                    NombreProducto = producto.nombreProducto,
+                    Descripcion = producto.descripcion,
+                    Categoria = producto.categoria,
+                    Cantidad = producto.cantidadStock,
+                    PrecioVenta = producto.precioVenta,
+                    PrecioCompra = producto.precioCompra,
+                    Imagen = producto.imagen
+                };
+            });
+        }
+
+        public async Task<bool> CheckStockByCodeAsync(string productCode, int quantity) {
+            return await Task.Run(() =>
+            {
+                var result = ProductOperation.CheckStockByCode(productCode, quantity);
+                Console.WriteLine($"Resultado CheckStock - Código: {productCode}, Cantidad: {quantity}, Resultado: {result}");
+                return result;
+            });
+        }
+        public StockResponse GetProductStock(int productId) {
+            try {
+                using (var db = new MilYUnaNochesEntities()) {
+                    var product = db.Producto.Find(productId);
+                    if (product == null)
+                        return new StockResponse { Success = false, Message = "Producto no encontrado" };
+
+                    return new StockResponse {
+                        Success = true,
+                        Stock = product.cantidadStock,
+                        Message = $"Stock actual: {product.cantidadStock}"
+                    };
+                }
+            } catch (Exception ex) {
+                return new StockResponse {
+                    Success = false,
+                    Message = $"Error al consultar stock: {ex.Message}"
+                };
 
         public bool ValidateProductName(string productName)
         {

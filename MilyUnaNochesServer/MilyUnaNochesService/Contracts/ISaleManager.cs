@@ -8,13 +8,13 @@ namespace MilyUnaNochesService.Contracts {
     [ServiceContract]
     public interface ISaleManager {
         [OperationContract]
-        bool ProcessSale(Venta sale, List<VentaProducto> details);
+        SaleResult ProcessSale(Venta sale, List<VentaProducto> details);
 
         [OperationContract]
         List<Venta> SearchSales(DateTime? date, int? employeeId);
 
         [OperationContract]
-        bool ValidateSale(List<VentaProducto> details);
+        List<string> ValidateSale(List<VentaProducto> details);
     }
 
     [DataContract]
@@ -26,19 +26,38 @@ namespace MilyUnaNochesService.Contracts {
         [DataMember] public decimal MontoTotal { get; set; }
         [DataMember] public DateTime fecha { get; set; }
         [DataMember] public TimeSpan hora { get; set; }
-        [DataMember] public List<VentaProducto> Detalles { get; set; } // Nueva propiedad para los detalles
+        [DataMember] public List<VentaProducto> Detalles { get; set; } 
 
     }
 
     [DataContract]
     public class VentaProducto {
-        [DataMember] public int IdProducto { get; set; }
-        [DataMember] public string NombreProducto { get; set; } // Nuevo campo
-        [DataMember] public int Cantidad { get; set; }
-        [DataMember] public decimal PrecioUnitario { get; set; }
-        [DataMember] public decimal Subtotal { get; set; } // Nuevo campo
+        [DataMember(Order = 1, IsRequired = true)]
+        public int IdProducto { get; set; }
+
+        [DataMember(Order = 2)]
+        public string NombreProducto { get; set; }
+
+        [DataMember(Order = 3)]
+        public int Cantidad { get; set; }
+
+        [DataMember(Order = 4)]
+        public decimal PrecioUnitario { get; set; }
+
+        [DataMember(Order = 5)]
+        public decimal Subtotal { get; set; }
     }
 
+    [DataContract]
+    public class SaleResult {
+        [DataMember]
+        public bool Success { get; set; }
 
+        [DataMember]
+        public List<string> Errors { get; set; }
+
+        [DataMember]
+        public int? SaleId { get; set; }
+    }
 
 }

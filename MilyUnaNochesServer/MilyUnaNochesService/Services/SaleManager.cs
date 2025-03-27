@@ -1,53 +1,62 @@
 ﻿using DataBaseManager.Operations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
 using MilyUnaNochesService.Contracts;
 using MilyUnaNochesService.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Core;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
+using System.Linq;
+using System.ServiceModel;
 
 namespace MilyUnaNochesService.Services {
     public partial class MilyUnaNochesService : ISaleManager {
-        public bool ProcessSale(Venta sale, List<VentaProducto> details) {
-            try {
-                // Validación previa
-                if (details == null || details.Count == 0)
-                    throw new ArgumentException("La venta debe contener al menos un producto");
+        public SaleResult ProcessSale(Venta sale, List<VentaProducto> details) {
+            var result = new SaleResult();
 
-                // Convertir `Contracts.Venta` a `DataBaseManager.Venta`
+            try {
+                // Primero validar el stock
+                var validationErrors = ValidateSale(details);
+                if (validationErrors.Any()) {
+                    result.Success = false;
+                    result.Errors = validationErrors;
+                    return result;
+                }
+
                 var dbSale = new DataBaseManager.Venta {
                     idEmpleado = sale.IdEmpleado,
                     idCliente = sale.IdCliente,
-                    metodoPago = sale.MetodoPago,
+                    metodoPago = sale.MetodoPago ?? "EFECTIVO",
                     montoTotal = sale.MontoTotal
                 };
 
-                // Convertir `Contracts.DetalleVenta` a `DataBaseManager.VentaProducto`
                 var dbDetails = details.Select(d => new DataBaseManager.VentaProducto {
                     idProducto = d.IdProducto,
                     cantidadProducto = d.Cantidad,
                     montoProducto = d.PrecioUnitario
                 }).ToList();
 
-                // Llamar a la operación para registrar la venta
-                int result = SaleOperation.RegisterSale(dbSale, dbDetails);
+                var operationResult = SaleOperation.RegisterSale(dbSale, dbDetails);
 
-                // Si la operación es exitosa
-                return result == Constants.SuccessOperation;
+                if (operationResult != Constants.SuccessOperation)
+                    throw new ApplicationException($"Error en RegisterSale. Código: {operationResult}");
+
+                result.Success = true;
+                return result;
             } catch (Exception ex) {
-                throw new FaultException("Error al procesar la venta");
+                result.Success = false;
+                result.Errors = new List<string> { $"Error al procesar la venta: {ex.Message}" };
+                return result;
             }
         }
 
         public List<Venta> SearchSales(DateTime? date, int? employeeId) {
             try {
-                // Obtener ventas desde la base de datos
                 var salesResult = SaleOperation.GetSales(date, employeeId);
 
                 if (salesResult.ResultCode != Constants.DataMatches)
-                    return new List<Venta>(); // No se encontraron ventas
+                    return new List<Venta>();
 
-                // Convertir las ventas y detalles
                 return salesResult.Sales.Select(s => new Venta {
                     idVenta = s.idVenta,
                     IdEmpleado = s.idEmpleado,
@@ -69,25 +78,36 @@ namespace MilyUnaNochesService.Services {
             }
         }
 
-        public bool ValidateSale(List<VentaProducto> details) {
-            try {
-                if (details == null || details.Count == 0)
-                    return false;
+        public List<string> ValidateSale(List<VentaProducto> details) {
+            {
+                var errors = new List<string>();
 
-                // Convertir `Contracts.DetalleVenta` a `DataBaseManager.VentaProducto`
-                var dbDetails = details.Select(d => new DataBaseManager.VentaProducto {
-                    idProducto = d.IdProducto,
-                    cantidadProducto = d.Cantidad,
-                    montoProducto = d.PrecioUnitario
-                }).ToList();
+                if (details == null || !details.Any()) {
+                    errors.Add("La venta no contiene productos");
+                    return errors;
+                }
 
-                // Validar stock en la base de datos
-                int result = SaleOperation.ValidateStock(dbDetails);
+                using (var context = new DataBaseManager.MilYUnaNochesEntities()) {
+                    foreach (var d in details) {
+                        if (d.IdProducto <= 0) {
+                            errors.Add($"ID de producto inválido: {d.IdProducto}");
+                            continue;
+                        }
 
-                // Si la operación es exitosa
-                return result == Constants.DataMatches;
-            } catch (Exception ex) {
-                throw new FaultException("Error al validar stock");
+                        var product = context.Producto.FirstOrDefault(p => p.idProducto == d.IdProducto);
+
+                        if (product == null) {
+                            errors.Add($"Producto con ID {d.IdProducto} no encontrado");
+                            continue;
+                        }
+
+                        if (product.cantidadStock < d.Cantidad) {
+                            errors.Add($"{product.nombreProducto}: Stock insuficiente (Disponible: {product.cantidadStock}, Requerido: {d.Cantidad})");
+                        }
+                    }
+                }
+
+                return errors;
             }
         }
     }
