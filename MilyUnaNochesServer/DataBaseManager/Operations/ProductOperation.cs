@@ -68,6 +68,41 @@ namespace DataBaseManager.Operations
             }
         }
 
+        public static Producto GetProductByCode(string code) {
+            var logger = new LoggerManager(typeof(ProductOperation));
 
+            try {
+                using (var db = new MilYUnaNochesEntities()) {
+                    return db.Producto.FirstOrDefault(p => p.codigoProducto == code);
+                }
+            } catch (EntityException ex) {
+                logger.LogError($"Error al buscar producto: {code}", ex);
+                return null;
+            } catch (Exception ex) {
+                logger.LogError($"Error inesperado: {code}", ex);
+                return null;
+            }
+        }
+
+        public static bool CheckStockByCode(string productCode, int requiredQuantity) {
+            var logger = new LoggerManager(typeof(ProductOperation));
+
+            try {
+                using (var db = new MilYUnaNochesEntities()) {
+                    var producto = db.Producto.FirstOrDefault(p => p.codigoProducto == productCode);
+
+                    if (producto == null) {
+                        Console.WriteLine($"Producto no encontrado: {productCode}");
+                        return false;
+                    }
+
+                    logger.LogInfo($"Verificación stock - Código: {productCode}, Stock: {producto.cantidadStock}, Requerido: {requiredQuantity}");
+                    return producto.cantidadStock >= requiredQuantity;
+                }
+            } catch (Exception ex) {
+                logger.LogError($"Error al verificar stock: {productCode}", ex);
+                return false;
+            }
+        }
     }
 }
