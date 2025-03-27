@@ -55,5 +55,19 @@ namespace MilyUnaNochesService.Services
                 throw; 
             }
         }
+
+        public bool ValidateProductName(string productName)
+        {
+            try
+            {
+                bool exist = ProductOperation.ValidateProductName(productName);
+                return exist;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al validar el nombre del producto: {ex.Message}");
+                throw;
+            }
+        }
     }
 }
