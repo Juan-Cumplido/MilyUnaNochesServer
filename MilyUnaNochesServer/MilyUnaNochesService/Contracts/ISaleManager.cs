@@ -26,13 +26,17 @@ namespace MilyUnaNochesService.Contracts {
         [DataMember] public decimal MontoTotal { get; set; }
         [DataMember] public DateTime fecha { get; set; }
         [DataMember] public TimeSpan hora { get; set; }
+        [DataMember] public List<VentaProducto> Detalles { get; set; } // Nueva propiedad para los detalles
+
     }
 
     [DataContract]
     public class VentaProducto {
         [DataMember] public int IdProducto { get; set; }
+        [DataMember] public string NombreProducto { get; set; } // Nuevo campo
         [DataMember] public int Cantidad { get; set; }
         [DataMember] public decimal PrecioUnitario { get; set; }
+        [DataMember] public decimal Subtotal { get; set; } // Nuevo campo
     }
 
 

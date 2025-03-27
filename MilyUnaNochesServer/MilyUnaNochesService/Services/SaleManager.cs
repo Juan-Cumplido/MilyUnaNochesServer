@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using MilyUnaNochesService.Contracts;
+using MilyUnaNochesService.Utilities;
 
 namespace MilyUnaNochesService.Services {
     public partial class MilyUnaNochesService : ISaleManager {
@@ -28,7 +29,11 @@ namespace MilyUnaNochesService.Services {
                     montoProducto = d.PrecioUnitario
                 }).ToList();
 
-                return SaleOperation.RegisterSale(dbSale, dbDetails);
+                // Llamar a la operación para registrar la venta
+                int result = SaleOperation.RegisterSale(dbSale, dbDetails);
+
+                // Si la operación es exitosa
+                return result == Constants.SuccessOperation;
             } catch (Exception ex) {
                 throw new FaultException("Error al procesar la venta");
             }
@@ -36,17 +41,31 @@ namespace MilyUnaNochesService.Services {
 
         public List<Venta> SearchSales(DateTime? date, int? employeeId) {
             try {
-                var sales = SaleOperation.GetSales(date, employeeId);
+                // Obtener ventas desde la base de datos
+                var salesResult = SaleOperation.GetSales(date, employeeId);
 
-                // Convertir `DataBaseManager.Venta` a `Contracts.Venta`
-                return sales.Select(s => new Venta {
+                if (salesResult.ResultCode != Constants.DataMatches)
+                    return new List<Venta>(); // No se encontraron ventas
+
+                // Convertir las ventas y detalles
+                return salesResult.Sales.Select(s => new Venta {
+                    idVenta = s.idVenta,
                     IdEmpleado = s.idEmpleado,
                     IdCliente = s.idCliente,
                     MetodoPago = s.metodoPago,
-                    MontoTotal = s.montoTotal
+                    MontoTotal = s.montoTotal,
+                    fecha = s.fecha,
+                    hora = s.hora,
+                    Detalles = s.VentaProducto.Select(d => new VentaProducto {
+                        IdProducto = d.idProducto,
+                        NombreProducto = d.Producto?.nombreProducto ?? "Desconocido",
+                        Cantidad = d.cantidadProducto,
+                        PrecioUnitario = d.montoProducto / d.cantidadProducto,
+                        Subtotal = d.cantidadProducto * d.montoProducto
+                    }).ToList()
                 }).ToList();
             } catch (Exception ex) {
-                throw new FaultException("Error al buscar ventas");
+                throw new FaultException("Error al buscar ventas: " + ex.Message);
             }
         }
 
@@ -62,11 +81,14 @@ namespace MilyUnaNochesService.Services {
                     montoProducto = d.PrecioUnitario
                 }).ToList();
 
-                return SaleOperation.ValidateStock(dbDetails);
+                // Validar stock en la base de datos
+                int result = SaleOperation.ValidateStock(dbDetails);
+
+                // Si la operación es exitosa
+                return result == Constants.DataMatches;
             } catch (Exception ex) {
                 throw new FaultException("Error al validar stock");
             }
         }
-
     }
 }
