@@ -12,6 +12,14 @@ namespace MilyUnaNochesService.Services
 {
     public partial class MilyUnaNochesService : IProductsManager
     {
+        public Task<bool> CheckStockByCodeAsync(string productCode, int quantity) {
+            throw new NotImplementedException();
+        }
+
+        public Task<Product> GetProductByCodeAsync(string productCode) {
+            throw new NotImplementedException();
+        }
+
         public List<Product> GetProducts() {
             try {
                 List<Producto> productos = ProductOperation.GetProducts();
@@ -34,6 +42,11 @@ namespace MilyUnaNochesService.Services
                 throw;
             }
         }
+
+        public StockResponse GetProductStock(int productId) {
+            throw new NotImplementedException();
+        }
+
         public bool SaveProduct(Product product)
         {
             DataBaseManager.Producto newProduct = new DataBaseManager.Producto()

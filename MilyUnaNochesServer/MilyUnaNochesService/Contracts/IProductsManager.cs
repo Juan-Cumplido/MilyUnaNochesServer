@@ -8,11 +8,9 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MilyUnaNochesService.Contracts
-{
+namespace MilyUnaNochesService.Contracts {
     [ServiceContract]
-    public interface IProductsManager
-    {
+    public interface IProductsManager {
         [OperationContract]
         bool SaveProduct(Product product);
 
@@ -36,8 +34,8 @@ namespace MilyUnaNochesService.Contracts
 
         [DataMember]
         public string Message { get; set; }
-      
-        [OperationContract]
-        bool ValidateProductName(string productName);
+
+        //[OperationContract]
+        //bool ValidateProductName(string productName);
     }
 }
