@@ -1,4 +1,4 @@
-﻿using DataBaseManager;
+using DataBaseManager;
 using DataBaseManager.Operations;
 using MilyUnaNochesService.Contracts;
 using MilyUnaNochesService.Logic;

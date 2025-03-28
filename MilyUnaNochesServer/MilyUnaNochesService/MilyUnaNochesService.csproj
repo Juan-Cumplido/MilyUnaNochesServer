@@ -75,6 +75,7 @@
     <Compile Include="Contracts\IProductsManager.cs" />
     <Compile Include="Contracts\IProviderManager.cs" />
     <Compile Include="Contracts\IPurchaseManager.cs" />
+    <Compile Include="Contracts\ISaleManager.cs" />
     <Compile Include="Contracts\IUserManager.cs" />
     <Compile Include="Contracts\IUserSessionManager.cs" />
     <Compile Include="Logic\Product.cs" />
@@ -84,6 +85,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ProductManager.cs" />
     <Compile Include="Services\PurchaseManager.cs" />
+    <Compile Include="Logic\RegisterPurchase.cs" />
+    <Compile Include="Logic\Sale.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ProductManager.cs" />
+    <Compile Include="Services\SaleManager.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Logic\Address.cs" />
     <Compile Include="Logic\Provider.cs" />
