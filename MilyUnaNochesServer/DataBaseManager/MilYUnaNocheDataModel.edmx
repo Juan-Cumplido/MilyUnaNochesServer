@@ -74,7 +74,7 @@
           <Property Name="cantidadStock" Type="int" Nullable="false" />
           <Property Name="precioVenta" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="precioCompra" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="imagen" Type="varbinary(max)" Nullable="false" />
+          <Property Name="imagen" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -270,6 +270,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Venta_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MilYUnaNochesModelStoreContainer">
           <EntitySet Name="Acceso" EntityType="Self.Acceso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
@@ -325,6 +337,10 @@
           <AssociationSet Name="FK__VentaProd__idVen__52593CB8" Association="Self.FK__VentaProd__idVen__52593CB8">
             <End Role="Venta" EntitySet="Venta" />
             <End Role="VentaProducto" EntitySet="VentaProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
           <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
@@ -417,7 +433,7 @@
           <Property Name="cantidadStock" Type="Int32" Nullable="false" />
           <Property Name="precioVenta" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="precioCompra" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="CompraProducto" Relationship="Self.FK__CompraPro__idPro__571DF1D5" FromRole="Producto" ToRole="CompraProducto" />
           <NavigationProperty Name="VentaProducto" Relationship="Self.FK__VentaProd__idPro__534D60F1" FromRole="Producto" ToRole="VentaProducto" />
         </EntityType>

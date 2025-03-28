@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MilyUnaNochesService.Logic {
     [DataContract]
-    public class RegisterPurchase {
+    public class RegisterPurchase_sv {
         [DataMember]
         public int IdProveedor { get; set; }
         [DataMember]
@@ -19,16 +19,6 @@ namespace MilyUnaNochesService.Logic {
         [DataMember]
         public string PayMethod { get; set; }
         [DataMember]
-        public List<PurchaseProductDTO> Products { get; set; }
-    }
-
-    [DataContract]
-    public class PurchaseProductDTO {
-        [DataMember]
-        public int IdProducto { get; set; }
-        [DataMember]
-        public int Cantidad { get; set; }
-        [DataMember]
-        public decimal MontoProducto { get; set; }
+        public List<ProductPurchase> Products { get; set; }
     }
 }
