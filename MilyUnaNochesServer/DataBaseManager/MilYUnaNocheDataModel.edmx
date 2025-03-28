@@ -74,7 +74,7 @@
           <Property Name="cantidadStock" Type="int" Nullable="false" />
           <Property Name="precioVenta" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="precioCompra" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="imagen" Type="varbinary(max)" Nullable="false" />
+          <Property Name="imagen" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -110,6 +110,7 @@
           <Property Name="montoTotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="hora" Type="time" Precision="7" Nullable="false" />
           <Property Name="metodoPago" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idCliente" Type="int" />
         </EntityType>
         <EntityType Name="VentaProducto">
           <Key>
@@ -259,6 +260,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Venta_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MilYUnaNochesModelStoreContainer">
           <EntitySet Name="Acceso" EntityType="Self.Acceso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
@@ -315,6 +328,10 @@
             <End Role="Direccion" EntitySet="Direccion" />
             <End Role="Proveedor" EntitySet="Proveedor" />
           </AssociationSet>
+          <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -337,6 +354,7 @@
           <Property Name="idCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK__Cliente__idUsuar__398D8EEE" FromRole="Cliente" ToRole="Usuario" />
+          <NavigationProperty Name="Venta" Relationship="MilYUnaNochesModel.FK_Venta_Cliente" FromRole="Cliente" ToRole="Venta" />
         </EntityType>
         <EntityType Name="CompraProducto">
           <Key>
@@ -401,7 +419,7 @@
           <Property Name="cantidadStock" Type="Int32" Nullable="false" />
           <Property Name="precioVenta" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="precioCompra" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="CompraProducto" Relationship="Self.FK__CompraPro__idPro__571DF1D5" FromRole="Producto" ToRole="CompraProducto" />
           <NavigationProperty Name="VentaProducto" Relationship="Self.FK__VentaProd__idPro__534D60F1" FromRole="Producto" ToRole="VentaProducto" />
         </EntityType>
@@ -445,6 +463,8 @@
           <NavigationProperty Name="Empleado" Relationship="Self.FK__Venta__idEmplead__4AB81AF0" FromRole="Venta" ToRole="Empleado" />
           <NavigationProperty Name="VentaProducto" Relationship="Self.FK__VentaProd__idVen__52593CB8" FromRole="Venta" ToRole="VentaProducto" />
           <Property Name="metodoPago" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="idCliente" Type="Int32" />
+          <NavigationProperty Name="Cliente" Relationship="MilYUnaNochesModel.FK_Venta_Cliente" FromRole="Venta" ToRole="Cliente" />
         </EntityType>
         <EntityType Name="VentaProducto">
           <Key>
@@ -650,7 +670,23 @@
             <End Role="Venta" EntitySet="Venta" />
             <End Role="VentaProducto" EntitySet="VentaProducto" />
           </AssociationSet>
+          <AssociationSet Name="FK_Venta_Cliente" Association="MilYUnaNochesModel.FK_Venta_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Venta_Cliente">
+          <End Type="MilYUnaNochesModel.Cliente" Role="Cliente" Multiplicity="0..1" />
+          <End Type="MilYUnaNochesModel.Venta" Role="Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -763,6 +799,7 @@
           <EntitySetMapping Name="Venta">
             <EntityTypeMapping TypeName="MilYUnaNochesModel.Venta">
               <MappingFragment StoreEntitySet="Venta">
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
                 <ScalarProperty Name="metodoPago" ColumnName="metodoPago" />
                 <ScalarProperty Name="idVenta" ColumnName="idVenta" />
                 <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />

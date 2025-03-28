@@ -12,6 +12,31 @@ namespace DataBaseManager.Operations
 {
     public static class ProductOperation
     {
+
+        public static List<Producto> GetProducts() {
+            try {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
+                    var productosDb = db.Producto.ToList();
+
+                    List<Producto> productos = productosDb.Select(productoDb => new Producto {
+                        idProducto = productoDb.idProducto,
+                        codigoProducto = productoDb.codigoProducto,
+                        nombreProducto = productoDb.nombreProducto,
+                        descripcion = productoDb.descripcion,
+                        categoria = productoDb.categoria,
+                        cantidadStock = productoDb.cantidadStock,
+                        precioVenta = productoDb.precioVenta,
+                        precioCompra = productoDb.precioCompra,
+                        imagen = productoDb.imagen
+                    }).ToList();
+
+                    return productos;
+                }
+            } catch (Exception ex) {
+                Console.WriteLine($"Error al obtener los productos: {ex.Message}");
+                throw;
+            }
+        }
         public static bool SaveProduct(Producto producto)
         {
             LoggerManager logger = new LoggerManager(typeof(ProductOperation)); 
@@ -37,37 +62,5 @@ namespace DataBaseManager.Operations
 
             return isInserted; 
         }
-
-        public static List<Producto> GetProducts()
-        {
-            try
-            {
-                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities())
-                {
-                    var productosDb = db.Producto.ToList(); 
-
-                    List<Producto> productos = productosDb.Select(productoDb => new Producto
-                    {
-                        codigoProducto = productoDb.codigoProducto,
-                        nombreProducto = productoDb.nombreProducto,
-                        descripcion = productoDb.descripcion,
-                        categoria = productoDb.categoria,
-                        cantidadStock = productoDb.cantidadStock,
-                        precioVenta = productoDb.precioVenta,
-                        precioCompra = productoDb.precioCompra,
-                        imagen = productoDb.imagen
-                    }).ToList();
-
-                    return productos;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al obtener los productos: {ex.Message}");
-                throw;
-            }
-        }
-
-
     }
 }

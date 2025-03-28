@@ -78,6 +78,8 @@
     <Compile Include="Empleado.cs">
       <DependentUpon>MilYUnaNocheDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Logic\ProductPurchaseDTO.cs" />
+    <Compile Include="Logic\RegisterPurchaseDTO.cs" />
     <Compile Include="MilYUnaNocheDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
