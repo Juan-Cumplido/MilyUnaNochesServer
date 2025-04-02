@@ -127,27 +127,6 @@ namespace DataBaseManager.Operations {
             return operationStatus;
         }
 
-        public static int UnArchiveProvider(int idProvider) {
-            LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
-            int operationStatus = Constants.ErrorOperation;
-            try {
-                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
-                    Proveedor provider = db.Proveedor.FirstOrDefault(p => p.idProveedor == idProvider);
-                    if (provider != null) {
-                        provider.estadoProveedor = "ACTIVO";
-                        db.SaveChanges();
-                        operationStatus = Constants.SuccessOperation;
-                    } else {
-                        operationStatus = Constants.NoDataMatches;
-                    }
-                }
-            } catch (EntityException entityException) {
-                logger.LogError($"EntityException: An error occurred trying to unarchive the provider. Exception: {entityException.Message}", entityException);
-            } catch (SqlException sqlException) {
-                logger.LogError($"SqlException: An error occurred trying to unarchive the provider. Exception: {sqlException.Message}", sqlException);
-            }
-            return operationStatus;
-        }
 
         public static int DeleteProvider(int idProvider) {
             LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
