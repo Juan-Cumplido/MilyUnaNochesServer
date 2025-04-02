@@ -72,6 +72,7 @@ namespace DataBaseManager.Operations {
                     providers = db.Proveedor.Where(p => p.estadoProveedor == "ARCHIVADO").ToList();
                 }
             } catch (EntityException entityException) {
+
                 logger.LogError($"EntityException: An error occurred while retrieving archived suppliers. Exception: {entityException.Message}", entityException);
                 providers.Add(operationFailed);
             } catch (SqlException sqlException) {
@@ -103,6 +104,7 @@ namespace DataBaseManager.Operations {
             return operationStatus;
         }
 
+
         public static int UnArchiveProvider(int idProvider) {
             LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
             int operationStatus = Constants.ErrorOperation;
@@ -118,12 +120,13 @@ namespace DataBaseManager.Operations {
                     }
                 }
             } catch (EntityException entityException) {
-                logger.LogError($"EntityException: An error occurred trying to unarchive the supplier. Exception: {entityException.Message}", entityException);
+                logger.LogError($"EntityException: An error occurred trying to unarchive the provider. Exception: {entityException.Message}", entityException);
             } catch (SqlException sqlException) {
-                logger.LogError($"SqlException: An error occurred trying to unarchive the supplier. Exception: {sqlException.Message}", sqlException);
+                logger.LogError($"SqlException: An error occurred trying to unarchive the provider. Exception: {sqlException.Message}", sqlException);
             }
             return operationStatus;
         }
+
 
         public static int DeleteProvider(int idProvider) {
             LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
@@ -256,4 +259,3 @@ namespace DataBaseManager.Operations {
         }
     }
 }
-

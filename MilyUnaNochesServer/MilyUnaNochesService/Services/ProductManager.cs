@@ -1,4 +1,4 @@
-﻿using DataBaseManager;
+using DataBaseManager;
 using DataBaseManager.Operations;
 using MilyUnaNochesService.Contracts;
 using MilyUnaNochesService.Logic;
@@ -12,6 +12,41 @@ namespace MilyUnaNochesService.Services
 {
     public partial class MilyUnaNochesService : IProductsManager
     {
+        public Task<bool> CheckStockByCodeAsync(string productCode, int quantity) {
+            throw new NotImplementedException();
+        }
+
+        public Task<Product> GetProductByCodeAsync(string productCode) {
+            throw new NotImplementedException();
+        }
+
+        public List<Product> GetProducts() {
+            try {
+                List<Producto> productos = ProductOperation.GetProducts();
+
+                List<Product> products = productos.Select(producto => new Product {
+                    IdProducto = producto.idProducto,
+                    CodigoProducto = producto.codigoProducto,
+                    NombreProducto = producto.nombreProducto,
+                    Descripcion = producto.descripcion,
+                    Categoria = producto.categoria,
+                    Cantidad = producto.cantidadStock,
+                    PrecioVenta = producto.precioVenta,
+                    PrecioCompra = producto.precioCompra,
+                    Imagen = producto.imagen
+                }).ToList();
+
+                return products;
+            } catch (Exception ex) {
+                Console.WriteLine($"Error al obtener los productos: {ex.Message}");
+                throw;
+            }
+        }
+
+        public StockResponse GetProductStock(int productId) {
+            throw new NotImplementedException();
+        }
+
         public bool SaveProduct(Product product)
         {
             DataBaseManager.Producto newProduct = new DataBaseManager.Producto()
@@ -29,30 +64,18 @@ namespace MilyUnaNochesService.Services
             bool insertionResult = ProductOperation.SaveProduct(newProduct);
             return insertionResult;
         }
-        public List<Product> GetProducts()
+
+        public bool ValidateProductName(string productName)
         {
             try
             {
-                List<Producto> productos = ProductOperation.GetProducts();
-
-                List<Product> products = productos.Select(producto => new Product
-                {
-                    CodigoProducto = producto.codigoProducto,
-                    NombreProducto = producto.nombreProducto,
-                    Descripcion = producto.descripcion,
-                    Categoria = producto.categoria,
-                    Cantidad = producto.cantidadStock,
-                    PrecioVenta = producto.precioVenta,
-                    PrecioCompra = producto.precioCompra,
-                    Imagen = producto.imagen
-                }).ToList();
-
-                return products;
+                bool exist = ProductOperation.ValidateProductName(productName);
+                return exist;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al obtener los productos: {ex.Message}");
-                throw; 
+                Console.WriteLine($"Error al validar el nombre del producto: {ex.Message}");
+                throw;
             }
         }
     }
