@@ -35,6 +35,18 @@ namespace MilyUnaNochesService.Contracts
 
         [OperationContract]
         int VerifyExistinEmployee(string email, string phone);
+
+        [OperationContract]
+        int VerifyExistingAccesAccount(string username);
+
+        [OperationContract]
+        int VerifyCredentials(string username, string password);
+
+        [OperationContract]
+        string searchEmployeeType(string username, string password);
+        [OperationContract]
+        Empleado GetUserProfile(string username, string password);
+
     }
 
     [DataContract]

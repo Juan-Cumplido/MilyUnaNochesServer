@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using MilyUnaNochesService.Utilities;
 
 namespace MilyUnaNochesService.Services
 {
@@ -150,7 +151,33 @@ namespace MilyUnaNochesService.Services
             return verificationResult;
         }
 
-        
+        public int VerifyExistingAccesAccount(string username)
+        {
+            UserOperation operations = new UserOperation();
+            int verificationResult = operations.VerifyCredentialsFromDataBase(username);
+            return verificationResult;
+        }
 
+        public int VerifyCredentials(string username, string password)
+        {
+            UserOperation operations = new UserOperation();
+            int verificationResult = operations.VerifyPasswordCredentialsFromDataBase(username, password);
+            return verificationResult;
+        }
+
+        public string searchEmployeeType(string username, string password)
+        {
+            UserOperation operations = new UserOperation();
+            string verificationResult = operations.searchEmployeeType(username, password);
+            return verificationResult;
+        }
+
+        public Contracts.Empleado GetUserProfile(string username, string password)
+        {
+            UserOperation operations = new UserOperation();
+            Contracts.Empleado profileObtained = new Contracts.Empleado();
+            
+            return profileObtained;
+        }
     }
 }
