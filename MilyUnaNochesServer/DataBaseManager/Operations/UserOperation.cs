@@ -410,5 +410,132 @@ namespace DataBaseManager.Operations
             return verificationResult;
         }
 
+        public int VerifyCredentialsFromDataBase(string username)
+        {
+            int verificationResult = -1;
+            LoggerManager logger = new LoggerManager(this.GetType());
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                    var existingAccount = dataBaseContext.Acceso.FirstOrDefault(access => access.usuario == username);
+                    if (existingAccount != null)
+                    {
+                        verificationResult = Constants.DataMatches;
+                    }
+                    else
+                    {
+                        verificationResult = Constants.NoDataMatches;
+                    }
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                logger.LogError(sqlException);
+                verificationResult = Constants.ErrorOperation;
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogFatal(entityException);
+                verificationResult = Constants.ErrorOperation;
+            }
+            return verificationResult;
+
+        }
+
+        public int VerifyPasswordCredentialsFromDataBase(string username, string password)
+        {
+            int verificationResult = -1;
+            LoggerManager logger = new LoggerManager(this.GetType());
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                    var existingAccount = dataBaseContext.Acceso.Where(access => access.usuario == username).FirstOrDefault();
+                    if (existingAccount != null && existingAccount.contraseña == password)
+                    {
+                        verificationResult = Constants.DataMatches;
+                    }
+                    else
+                    {
+                        verificationResult = Constants.NoDataMatches;
+                    }
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                logger.LogError(sqlException);
+                verificationResult = Constants.ErrorOperation;
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogFatal(entityException);
+                verificationResult = Constants.ErrorOperation;
+            }
+            return verificationResult;
+        }
+        public string searchEmployeeType(string username, string password)
+        {
+            string employeeType = "No encontrado";
+            LoggerManager logger = new LoggerManager(this.GetType());
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                     var existingAccount = dataBaseContext.Acceso
+                        .Where(access => access.usuario == username && access.contraseña == password)
+                        .Select(access => access.idEmpleado)
+                        .FirstOrDefault();
+
+                    if (existingAccount != null)
+                    {
+                        var employee = dataBaseContext.Empleado
+                            .Where(emp => emp.idEmpleado == existingAccount)
+                            .Select(emp => emp.tipoEmpleado)
+                            .FirstOrDefault();
+
+                        if (!string.IsNullOrEmpty(employee))
+                        {
+                            employeeType = employee;
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                logger.LogError(sqlException);
+                employeeType = "Error en la operación";
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogFatal(entityException);
+                employeeType = "Error en la operación";
+            }
+            return employeeType;
+        }
+
+        public EmployeeData GetUserDataFromDataBase(string username, string password)
+        {
+            EmployeeData dataObtained = new EmployeeData();
+            LoggerManager logger = new LoggerManager(this.GetType());
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                    
+                    
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                logger.LogError(sqlException);
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogFatal(entityException);
+            }
+            return dataObtained;
+        }
+
     }
 }
