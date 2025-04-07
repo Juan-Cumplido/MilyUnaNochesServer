@@ -79,7 +79,7 @@
     <Compile Include="Contracts\IUserManager.cs" />
     <Compile Include="Contracts\IUserSessionManager.cs" />
     <Compile Include="Logic\Product.cs" />
-    <Compile Include="Logic\ConsultPurchase.cs" />
+    <Compile Include="Logic\ConsultPurchase_SV.cs" />
     <Compile Include="Logic\ProductPurchase.cs" />
     <Compile Include="Logic\RegisterPurchase_sv.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

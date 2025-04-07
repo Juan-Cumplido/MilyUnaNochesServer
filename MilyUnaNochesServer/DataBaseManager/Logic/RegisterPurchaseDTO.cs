@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace DataBaseManager.Logic {
     public class RegisterPurchaseDTO {
             public int IdProveedor { get; set; }
+            
+            public string ContactoProveedor { get; set; }
 
             public DateTime Fecha { get; set; }
 
