@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace MilyUnaNochesService.Logic {
     [DataContract]
-    public class ConsultPurchase {
+    public class ConsultPurchase_SV {
         [DataMember]
         public string providerName { get; set; }
         [DataMember]
         public string providerContact { get; set; }
+        public DateTime Fecha { get; set; }
         [DataMember]
-        public DateTime purchaseDate { get; set; }
+        public TimeSpan Hora { get; set; }
         [DataMember]
-        public string purchaseProducts { get; set; }
+        public string purchasedProducts { get; set; }
         [DataMember]
         public string payMethod { get; set; }
         [DataMember]

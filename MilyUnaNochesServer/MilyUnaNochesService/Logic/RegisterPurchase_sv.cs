@@ -11,6 +11,8 @@ namespace MilyUnaNochesService.Logic {
         [DataMember]
         public int IdProveedor { get; set; }
         [DataMember]
+        public string ContactoProveedor { get; set; }
+        [DataMember]
         public DateTime Fecha { get; set; }
         [DataMember]
         public TimeSpan Hora { get; set; }
