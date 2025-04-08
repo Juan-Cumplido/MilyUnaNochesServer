@@ -338,3 +338,6 @@ MilyUnaNochesServer/MilyUnaNochesServer/DataBaseManager/App.config
 MilyUnaNochesServer/MilyUnaNochesServer/MilyUnaNochesServer/App.config
 MilyUnaNochesServer/MilyUnaNochesServer/MilyUnaNochesService/App.config
 
+/MilyUnaNochesServer/DataBaseManager/MilYUnaNocheDataModel.edmx
+/MilyUnaNochesServer/DataBaseManager/MilYUnaNocheDataModel.cs
+/MilyUnaNochesServer/DataBaseManager/MilYUnaNocheDataModel.Designer.cs
