@@ -8,10 +8,27 @@ using System.Threading.Tasks;
 
 using System.Data.Entity;
 
-namespace DataBaseManager.Operations
-{
-    public static class ProductOperation
-    {
+namespace DataBaseManager.Operations {
+    public static class ProductOperation {
+
+        public static bool SaveProduct(Producto producto) {
+            LoggerManager logger = new LoggerManager(typeof(ProductOperation));
+            bool isInserted = false;
+
+            try {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
+                    db.Producto.Add(producto);
+                    db.SaveChanges();
+                    isInserted = true;
+                }
+            } catch (EntityException entityException) {
+                logger.LogError($"DbEntityValidationException: Error trying to register product. Exception: {entityException.Message}", entityException);
+            } catch (Exception exception) {
+                logger.LogError($"Exception: Error trying to register product. Exception: {exception.Message}", exception);
+            }
+
+            return isInserted;
+        }
 
         public static List<Producto> GetProducts() {
             try {
@@ -19,7 +36,6 @@ namespace DataBaseManager.Operations
                     var productosDb = db.Producto.ToList();
 
                     List<Producto> productos = productosDb.Select(productoDb => new Producto {
-                        idProducto = productoDb.idProducto,
                         codigoProducto = productoDb.codigoProducto,
                         nombreProducto = productoDb.nombreProducto,
                         descripcion = productoDb.descripcion,
@@ -37,30 +53,42 @@ namespace DataBaseManager.Operations
                 throw;
             }
         }
-        public static bool SaveProduct(Producto producto)
-        {
-            LoggerManager logger = new LoggerManager(typeof(ProductOperation)); 
-            bool isInserted = false; 
 
-            try
-            {
-                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities())
-                {
-                    db.Producto.Add(producto);  
-                    db.SaveChanges();           
-                    isInserted = true;          
+        public static Producto GetProductByCode(string code) {
+            var logger = new LoggerManager(typeof(ProductOperation));
+
+            try {
+                using (var db = new MilYUnaNochesEntities()) {
+                    return db.Producto.FirstOrDefault(p => p.codigoProducto == code);
                 }
+            } catch (EntityException ex) {
+                logger.LogError($"Error al buscar producto: {code}", ex);
+                return null;
+            } catch (Exception ex) {
+                logger.LogError($"Error inesperado: {code}", ex);
+                return null;
             }
-            catch (EntityException entityException)
-            {
-                logger.LogError($"DbEntityValidationException: Error trying to register product. Exception: {entityException.Message}", entityException);
-            }
-            catch (Exception exception)
-            {
-                logger.LogError($"Exception: Error trying to register product. Exception: {exception.Message}", exception);
-            }
+        }
 
-            return isInserted; 
+        public static bool CheckStockByCode(string productCode, int requiredQuantity) {
+            var logger = new LoggerManager(typeof(ProductOperation));
+
+            try {
+                using (var db = new MilYUnaNochesEntities()) {
+                    var producto = db.Producto.FirstOrDefault(p => p.codigoProducto == productCode);
+
+                    if (producto == null) {
+                        Console.WriteLine($"Producto no encontrado: {productCode}");
+                        return false;
+                    }
+
+                    logger.LogInfo($"Verificación stock - Código: {productCode}, Stock: {producto.cantidadStock}, Requerido: {requiredQuantity}");
+                    return producto.cantidadStock >= requiredQuantity;
+                }
+            } catch (Exception ex) {
+                logger.LogError($"Error al verificar stock: {productCode}", ex);
+                return false;
+            }
         }
     }
 }

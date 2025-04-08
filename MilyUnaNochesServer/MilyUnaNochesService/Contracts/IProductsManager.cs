@@ -19,8 +19,10 @@ namespace MilyUnaNochesService.Contracts {
 
         [OperationContract]
         Task<Product> GetProductByCodeAsync(string productCode);
+        
         [OperationContract]
         Task<bool> CheckStockByCodeAsync(string productCode, int quantity);
+       
         [OperationContract]
         StockResponse GetProductStock(int productId);
     }

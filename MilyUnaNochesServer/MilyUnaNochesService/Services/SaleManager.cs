@@ -15,7 +15,7 @@ namespace MilyUnaNochesService.Services {
             var result = new SaleResult();
 
             try {
-                // Primero validar el stock
+                // Validación de stock
                 var validationErrors = ValidateSale(details);
                 if (validationErrors.Any()) {
                     result.Success = false;
@@ -23,29 +23,45 @@ namespace MilyUnaNochesService.Services {
                     return result;
                 }
 
+                // Mapeo completo de la venta
                 var dbSale = new DataBaseManager.Venta {
                     idEmpleado = sale.IdEmpleado,
                     idCliente = sale.IdCliente,
                     metodoPago = sale.MetodoPago ?? "EFECTIVO",
-                    montoTotal = sale.MontoTotal
+                    montoTotal = sale.MontoTotal,
+                    fecha = DateTime.Now.Date,
+                    hora = DateTime.Now.TimeOfDay
                 };
 
-                var dbDetails = details.Select(d => new DataBaseManager.VentaProducto {
-                    idProducto = d.IdProducto,
-                    cantidadProducto = d.Cantidad,
-                    montoProducto = d.PrecioUnitario
-                }).ToList();
+                using (var context = new DataBaseManager.MilYUnaNochesEntities()) {
+                    // Mapeo completo de los detalles
+                    var dbDetails = details.Select(d => {
+                        var product = context.Producto.Find(d.IdProducto);
+                        return new DataBaseManager.VentaProducto {
+                            idProducto = d.IdProducto,
+                            cantidadProducto = d.Cantidad,
+                            precioVentaHistorico = d.PrecioUnitario, // Usar el precio del cliente
+                            precioCompraHistorico = product.precioCompra,
+                            // Asegurar que todos los campos requeridos estén mapeados
+                        };
+                    }).ToList();
 
-                var operationResult = SaleOperation.RegisterSale(dbSale, dbDetails);
+                    var operationResult = SaleOperation.RegisterSale(dbSale, dbDetails);
 
-                if (operationResult != Constants.SuccessOperation)
-                    throw new ApplicationException($"Error en RegisterSale. Código: {operationResult}");
+                    if (operationResult == Constants.SuccessOperation) {
+                        result.Success = true;
+                        result.SaleId = dbSale.idVenta;
+                    } else {
+                        result.Success = false;
+                        result.Errors.Add($"Error en base de datos: {operationResult}");
+                    }
 
-                result.Success = true;
-                return result;
+                    return result;
+                }
             } catch (Exception ex) {
                 result.Success = false;
-                result.Errors = new List<string> { $"Error al procesar la venta: {ex.Message}" };
+                result.Errors.Add($"Error al procesar la venta: {ex.Message}");
+                Console.WriteLine(ex);
                 return result;
             }
         }
@@ -69,8 +85,10 @@ namespace MilyUnaNochesService.Services {
                         IdProducto = d.idProducto,
                         NombreProducto = d.Producto?.nombreProducto ?? "Desconocido",
                         Cantidad = d.cantidadProducto,
-                        PrecioUnitario = d.montoProducto / d.cantidadProducto,
-                        Subtotal = d.cantidadProducto * d.montoProducto
+                        PrecioUnitario = d.precioVentaHistorico, // Usamos precioVentaHistorico
+                        PrecioCompra = d.precioCompraHistorico,
+                        MargenGanancia = d.precioVentaHistorico - d.precioCompraHistorico,
+                        Subtotal = d.cantidadProducto * d.precioVentaHistorico // Calculamos con precio histórico
                     }).ToList()
                 }).ToList();
             } catch (Exception ex) {
