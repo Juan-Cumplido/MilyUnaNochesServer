@@ -1,4 +1,5 @@
-﻿using MilyUnaNochesService.Logic;
+﻿using DataBaseManager.Logic;
+using MilyUnaNochesService.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,7 @@ namespace MilyUnaNochesService.Contracts {
     public interface IPurchaseManager {
         [OperationContract]
         int SavePurchase(RegisterPurchase_sv purchase);
+        [OperationContract]
+        List<ConsultPurchase_SV> GetPurchases();
     }
 }
