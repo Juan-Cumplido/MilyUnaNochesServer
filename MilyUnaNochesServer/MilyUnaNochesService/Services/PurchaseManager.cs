@@ -15,10 +15,8 @@ namespace MilyUnaNochesService.Services {
         public List<ConsultPurchase_SV> GetPurchases() {
             List<ConsultPurchase_SV> purchasesSv = new List<ConsultPurchase_SV>();
 
-            // Se obtiene la lista de compras registrada en la capa de acceso a datos
             List<ConsultPurchaseDTO> purchasesDTO = PurchaseOperations.GetRegisteredPurchases();
 
-            // Se mapea cada objeto ConsultPurchaseDTO al contrato de servicio ConsultPurchase_SV
             foreach (var pDTO in purchasesDTO) {
                 ConsultPurchase_SV purchaseSv = new ConsultPurchase_SV() {
                     providerName = pDTO.providerName,
