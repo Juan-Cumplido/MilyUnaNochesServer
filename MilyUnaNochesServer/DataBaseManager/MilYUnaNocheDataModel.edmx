@@ -120,7 +120,9 @@
           <Property Name="idVenta" Type="int" Nullable="false" />
           <Property Name="idProducto" Type="int" Nullable="false" />
           <Property Name="cantidadProducto" Type="int" Nullable="false" />
-          <Property Name="montoProducto" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="precioVentaHistorico" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="precioCompraHistorico" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="montoTotal" Type="decimal" Precision="21" Scale="2" StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="FK__Acceso__idEmplea__4316F928">
           <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
@@ -472,9 +474,11 @@
           <Property Name="idVenta" Type="Int32" Nullable="false" />
           <Property Name="idProducto" Type="Int32" Nullable="false" />
           <Property Name="cantidadProducto" Type="Int32" Nullable="false" />
-          <Property Name="montoProducto" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="Producto" Relationship="Self.FK__VentaProd__idPro__534D60F1" FromRole="VentaProducto" ToRole="Producto" />
           <NavigationProperty Name="Venta" Relationship="Self.FK__VentaProd__idVen__52593CB8" FromRole="VentaProducto" ToRole="Venta" />
+          <Property Name="precioVentaHistorico" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="precioCompraHistorico" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="montoTotal" Type="Decimal" Precision="21" Scale="2" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="FK__Acceso__idEmplea__4316F928">
           <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
@@ -810,10 +814,12 @@
           <EntitySetMapping Name="VentaProducto">
             <EntityTypeMapping TypeName="MilYUnaNochesModel.VentaProducto">
               <MappingFragment StoreEntitySet="VentaProducto">
+                <ScalarProperty Name="montoTotal" ColumnName="montoTotal" />
+                <ScalarProperty Name="precioCompraHistorico" ColumnName="precioCompraHistorico" />
+                <ScalarProperty Name="precioVentaHistorico" ColumnName="precioVentaHistorico" />
                 <ScalarProperty Name="idVenta" ColumnName="idVenta" />
                 <ScalarProperty Name="idProducto" ColumnName="idProducto" />
                 <ScalarProperty Name="cantidadProducto" ColumnName="cantidadProducto" />
-                <ScalarProperty Name="montoProducto" ColumnName="montoProducto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

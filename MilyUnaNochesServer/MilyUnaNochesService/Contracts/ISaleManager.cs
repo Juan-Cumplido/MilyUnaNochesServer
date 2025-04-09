@@ -26,7 +26,7 @@ namespace MilyUnaNochesService.Contracts {
         [DataMember] public decimal MontoTotal { get; set; }
         [DataMember] public DateTime fecha { get; set; }
         [DataMember] public TimeSpan hora { get; set; }
-        [DataMember] public List<VentaProducto> Detalles { get; set; } 
+        [DataMember] public List<VentaProducto> Detalles { get; set; }
 
     }
 
@@ -45,6 +45,12 @@ namespace MilyUnaNochesService.Contracts {
         public decimal PrecioUnitario { get; set; }
 
         [DataMember(Order = 5)]
+        public decimal PrecioCompra { get; set; } // Nuevo campo
+
+        [DataMember(Order = 6)]
+        public decimal MargenGanancia { get; set; } // Nuevo campo (opcional)
+
+        [DataMember(Order = 7)]
         public decimal Subtotal { get; set; }
     }
 
