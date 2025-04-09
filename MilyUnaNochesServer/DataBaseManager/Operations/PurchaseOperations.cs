@@ -91,48 +91,48 @@ namespace DataBaseManager.Operations {
             return result;
         }
 
-        public static List<ConsultPurchaseDTO> GetRegisteredPurchases() {
-            LoggerManager logger = new LoggerManager(typeof(PurchaseOperations));
-            List<ConsultPurchaseDTO> registeredPurchases = new List<ConsultPurchaseDTO>();
+            public static List<ConsultPurchaseDTO> GetRegisteredPurchases() {
+                LoggerManager logger = new LoggerManager(typeof(PurchaseOperations));
+                List<ConsultPurchaseDTO> registeredPurchases = new List<ConsultPurchaseDTO>();
 
-            try {
-                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
-                    var result = (from compra in db.CompraProveedor
-                                  join proveedor in db.Proveedor
-                                  on compra.idProveedor equals proveedor.idProveedor
-                                  select new {
-                                      compra,
-                                      proveedor,
-                                      productos = (from cp in db.CompraProducto
-                                                   join prod in db.Producto on cp.idProducto equals prod.idProducto
-                                                   where cp.idCompra == compra.idCompra
-                                                   select new {
-                                                       Nombre = prod.nombreProducto,
-                                                       Cantidad = cp.cantidad
-                                                   }).ToList()
-                                  }).ToList();
+                try {
+                    using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
+                        var result = (from compra in db.CompraProveedor
+                                      join proveedor in db.Proveedor
+                                      on compra.idProveedor equals proveedor.idProveedor
+                                      select new {
+                                          compra,
+                                          proveedor,
+                                          productos = (from cp in db.CompraProducto
+                                                       join prod in db.Producto on cp.idProducto equals prod.idProducto
+                                                       where cp.idCompra == compra.idCompra
+                                                       select new {
+                                                           Nombre = prod.nombreProducto,
+                                                           Cantidad = cp.cantidad
+                                                       }).ToList()
+                                      }).ToList();
 
-                    foreach (var item in result) {
-                        string productosTexto = string.Join(", ", item.productos.Select(p => $"{p.Nombre} (x{p.Cantidad})"));
+                        foreach (var item in result) {
+                            string productosTexto = string.Join(", ", item.productos.Select(p => $"{p.Nombre} (x{p.Cantidad})"));
 
-                        registeredPurchases.Add(new ConsultPurchaseDTO {
-                            providerName = item.proveedor.nombreProveedor,
-                            providerContact = item.proveedor.contacto,
-                            Fecha = item.compra.fecha,
-                            Hora = item.compra.hora,
-                            purchasedProducts = productosTexto,
-                            payMethod = item.compra.metodoPago,
-                            amountPaid = item.compra.montoTotal
-                        });
+                            registeredPurchases.Add(new ConsultPurchaseDTO {
+                                providerName = item.proveedor.nombreProveedor,
+                                providerContact = item.compra.contactoProveedor,
+                                Fecha = item.compra.fecha,
+                                Hora = item.compra.hora,
+                                purchasedProducts = productosTexto,
+                                payMethod = item.compra.metodoPago,
+                                amountPaid = item.compra.montoTotal
+                            });
+                        }
                     }
+                } catch (SqlException sqlException) {
+                    logger.LogError($"SQLException: No se pudo acceder a la base de datos: {sqlException.Message}", sqlException);
+                } catch (Exception exception) {
+                    logger.LogError($"Exception: Error general: {exception.Message}", exception);
                 }
-            } catch (SqlException sqlException) {
-                logger.LogError($"SQLException: No se pudo acceder a la base de datos: {sqlException.Message}", sqlException);
-            } catch (Exception exception) {
-                logger.LogError($"Exception: Error general: {exception.Message}", exception);
-            }
 
-            return registeredPurchases;
+                return registeredPurchases;
+            }
         }
     }
-}
