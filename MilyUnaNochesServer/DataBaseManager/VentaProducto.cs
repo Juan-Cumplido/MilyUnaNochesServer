@@ -20,6 +20,10 @@ namespace DataBaseManager
         public decimal precioVentaHistorico { get; set; }
         public decimal precioCompraHistorico { get; set; }
         public Nullable<decimal> montoTotal { get; set; }
+        public decimal montoProducto { get; set; }
+        public decimal precioVentaHistorico1 { get; set; }
+        public decimal precioCompraHistorico1 { get; set; }
+        public Nullable<decimal> montoTotal1 { get; set; }
     
         public virtual Producto Producto { get; set; }
         public virtual Venta Venta { get; set; }
