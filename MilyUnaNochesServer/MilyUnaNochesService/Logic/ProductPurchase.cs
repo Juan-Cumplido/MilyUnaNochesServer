@@ -20,5 +20,7 @@ namespace MilyUnaNochesService.Logic {
     public decimal MontoProducto { get; set; }
     [DataMember]
     public string NombreProducto { get; set; }
+    [DataMember]
+    public string CodigoProducto { get; set; }
     }
 }
