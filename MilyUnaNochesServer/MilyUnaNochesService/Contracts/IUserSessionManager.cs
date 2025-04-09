@@ -13,6 +13,11 @@ namespace MilyUnaNochesService.Contracts
     {
         [OperationContract]
         int Connect(UserSession user);
+        [OperationContract]
+        int Disconnect(UserSession user, bool isInMatch);
+
+        [OperationContract]
+        bool VerifyConnectivity(UserSession user);
     }
 
     [DataContract]

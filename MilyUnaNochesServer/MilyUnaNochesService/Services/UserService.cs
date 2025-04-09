@@ -176,7 +176,19 @@ namespace MilyUnaNochesService.Services
         {
             UserOperation operations = new UserOperation();
             Contracts.Empleado profileObtained = new Contracts.Empleado();
-            
+            Utilities.EmployeeData profileFromDataBase = operations.GetUserDataFromDataBase(username, password);
+            if (profileFromDataBase.idEmpleado != Constants.ErrorOperation && profileFromDataBase.idEmpleado != Constants.NoDataMatches)
+            {
+                profileObtained.idAcceso = profileFromDataBase.idAcceso;
+                profileObtained.idEmpleado = profileFromDataBase.idEmpleado;
+                profileObtained.tipoEmpleado = profileFromDataBase.tipoEmpleado;
+                profileObtained.nombre = profileFromDataBase.nombre;
+                profileObtained.primerApellido = profileFromDataBase.primerApellido;
+                profileObtained.segundoApellido = profileFromDataBase.segundoApellido;
+                profileObtained.correo = profileFromDataBase.correo;
+                profileObtained.telefono = profileFromDataBase.telefono;
+
+            }
             return profileObtained;
         }
     }
