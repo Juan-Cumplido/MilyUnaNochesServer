@@ -37,6 +37,7 @@ namespace DataBaseManager.Operations {
                     var productosDb = db.Producto.ToList();
 
                     List<Producto> productos = productosDb.Select(productoDb => new Producto {
+                        idProducto = productoDb.idProducto,
                         codigoProducto = productoDb.codigoProducto,
                         nombreProducto = productoDb.nombreProducto,
                         descripcion = productoDb.descripcion,
