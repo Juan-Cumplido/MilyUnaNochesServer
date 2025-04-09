@@ -12,7 +12,7 @@
           <Property Name="idAcceso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idEmpleado" Type="int" />
           <Property Name="usuario" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="contraseña" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="contraseña" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Cliente">
           <Key>
@@ -74,7 +74,7 @@
           <Property Name="cantidadStock" Type="int" Nullable="false" />
           <Property Name="precioVenta" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="precioCompra" Type="decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="imagen" Type="varbinary(max)" Nullable="false" />
+          <Property Name="imagen" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -96,7 +96,7 @@
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="primerApellido" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="segundoApellido" Type="varchar" MaxLength="50" />
-          <Property Name="correo" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="telefono" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="estadoUsuario" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
@@ -210,18 +210,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Proveedor__idDir__45F365D3">
-          <End Role="Direccion" Type="Self.Direccion" Multiplicity="1" />
-          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Direccion">
-              <PropertyRef Name="idDireccion" />
-            </Principal>
-            <Dependent Role="Proveedor">
-              <PropertyRef Name="idDireccion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Venta__idEmplead__4AB81AF0">
           <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
           <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
@@ -257,6 +245,20 @@
             </Principal>
             <Dependent Role="VentaProducto">
               <PropertyRef Name="idVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proveedor_Direccion">
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direccion">
+              <PropertyRef Name="idDireccion" />
+            </Principal>
+            <Dependent Role="Proveedor">
+              <PropertyRef Name="idDireccion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -312,10 +314,6 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Empleado" EntitySet="Empleado" />
           </AssociationSet>
-          <AssociationSet Name="FK__Proveedor__idDir__45F365D3" Association="Self.FK__Proveedor__idDir__45F365D3">
-            <End Role="Direccion" EntitySet="Direccion" />
-            <End Role="Proveedor" EntitySet="Proveedor" />
-          </AssociationSet>
           <AssociationSet Name="FK__Venta__idEmplead__4AB81AF0" Association="Self.FK__Venta__idEmplead__4AB81AF0">
             <End Role="Empleado" EntitySet="Empleado" />
             <End Role="Venta" EntitySet="Venta" />
@@ -327,6 +325,10 @@
           <AssociationSet Name="FK__VentaProd__idVen__52593CB8" Association="Self.FK__VentaProd__idVen__52593CB8">
             <End Role="Venta" EntitySet="Venta" />
             <End Role="VentaProducto" EntitySet="VentaProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proveedor_Direccion" Association="Self.FK_Proveedor_Direccion">
+            <End Role="Direccion" EntitySet="Direccion" />
+            <End Role="Proveedor" EntitySet="Proveedor" />
           </AssociationSet>
           <AssociationSet Name="FK_Venta_Cliente" Association="Self.FK_Venta_Cliente">
             <End Role="Cliente" EntitySet="Cliente" />
@@ -344,7 +346,7 @@
           <Property Name="idAcceso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idEmpleado" Type="Int32" />
           <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="contraseña" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Empleado" Relationship="Self.FK__Acceso__idEmplea__4316F928" FromRole="Acceso" ToRole="Empleado" />
         </EntityType>
         <EntityType Name="Cliente">
@@ -419,7 +421,7 @@
           <Property Name="cantidadStock" Type="Int32" Nullable="false" />
           <Property Name="precioVenta" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="precioCompra" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="CompraProducto" Relationship="Self.FK__CompraPro__idPro__571DF1D5" FromRole="Producto" ToRole="CompraProducto" />
           <NavigationProperty Name="VentaProducto" Relationship="Self.FK__VentaProd__idPro__534D60F1" FromRole="Producto" ToRole="VentaProducto" />
         </EntityType>
@@ -445,7 +447,7 @@
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="primerApellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="segundoApellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="correo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="estadoUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK__Cliente__idUsuar__398D8EEE" FromRole="Usuario" ToRole="Cliente" />
@@ -479,6 +481,10 @@
           <Property Name="precioVentaHistorico" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="precioCompraHistorico" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="montoTotal" Type="Decimal" Precision="21" Scale="2" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="montoProducto" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="precioVentaHistorico1" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="precioCompraHistorico1" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="montoTotal1" Type="Decimal" Precision="21" Scale="2" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="FK__Acceso__idEmplea__4316F928">
           <End Role="Empleado" Type="Self.Empleado" Multiplicity="0..1" />
@@ -814,9 +820,9 @@
           <EntitySetMapping Name="VentaProducto">
             <EntityTypeMapping TypeName="MilYUnaNochesModel.VentaProducto">
               <MappingFragment StoreEntitySet="VentaProducto">
-                <ScalarProperty Name="montoTotal" ColumnName="montoTotal" />
-                <ScalarProperty Name="precioCompraHistorico" ColumnName="precioCompraHistorico" />
-                <ScalarProperty Name="precioVentaHistorico" ColumnName="precioVentaHistorico" />
+                <ScalarProperty Name="montoTotal1" ColumnName="montoTotal" />
+                <ScalarProperty Name="precioCompraHistorico1" ColumnName="precioCompraHistorico" />
+                <ScalarProperty Name="precioVentaHistorico1" ColumnName="precioVentaHistorico" />
                 <ScalarProperty Name="idVenta" ColumnName="idVenta" />
                 <ScalarProperty Name="idProducto" ColumnName="idProducto" />
                 <ScalarProperty Name="cantidadProducto" ColumnName="cantidadProducto" />
