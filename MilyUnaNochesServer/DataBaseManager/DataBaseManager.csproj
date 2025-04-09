@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Logic\ConsultPurchaseDTO.cs" />
     <Compile Include="Logic\ProductPurchaseDTO.cs" />
+    <Compile Include="Logic\ReportDTO.cs" />
     <Compile Include="Logic\RegisterPurchaseDTO.cs" />
     <Compile Include="MilYUnaNocheDataModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -100,6 +101,7 @@
     <Compile Include="Operations\ProductOperation.cs" />
     <Compile Include="Operations\ProviderOperation.cs" />
     <Compile Include="Operations\PurchaseOperations.cs" />
+    <Compile Include="Operations\ReportOperations.cs" />
     <Compile Include="Operations\SaleOperation.cs" />
     <Compile Include="Operations\UserOperation.cs" />
     <Compile Include="Producto.cs">

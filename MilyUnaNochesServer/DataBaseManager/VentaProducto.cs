@@ -17,7 +17,9 @@ namespace DataBaseManager
         public int idVenta { get; set; }
         public int idProducto { get; set; }
         public int cantidadProducto { get; set; }
-        public decimal montoProducto { get; set; }
+        public decimal precioVentaHistorico { get; set; }
+        public decimal precioCompraHistorico { get; set; }
+        public Nullable<decimal> montoTotal { get; set; }
     
         public virtual Producto Producto { get; set; }
         public virtual Venta Venta { get; set; }
