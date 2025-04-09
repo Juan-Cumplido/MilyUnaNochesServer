@@ -127,6 +127,7 @@ namespace DataBaseManager.Operations {
             return operationStatus;
         }
 
+
         public static int DeleteProvider(int idProvider) {
             LoggerManager logger = new LoggerManager(typeof(ProviderOperation));
             int operationStatus = Constants.ErrorOperation;

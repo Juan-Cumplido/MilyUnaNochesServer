@@ -78,6 +78,7 @@
     <Compile Include="Empleado.cs">
       <DependentUpon>MilYUnaNocheDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Logic\ConsultPurchaseDTO.cs" />
     <Compile Include="Logic\ProductPurchaseDTO.cs" />
     <Compile Include="Logic\ReportDTO.cs" />
     <Compile Include="Logic\RegisterPurchaseDTO.cs" />

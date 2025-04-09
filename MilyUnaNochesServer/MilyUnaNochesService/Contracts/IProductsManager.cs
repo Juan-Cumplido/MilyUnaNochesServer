@@ -18,6 +18,9 @@ namespace MilyUnaNochesService.Contracts {
         List<Product> GetProducts();
 
         [OperationContract]
+        bool ValidateProductName(string productName);
+
+        [OperationContract]
         Task<Product> GetProductByCodeAsync(string productCode);
         
         [OperationContract]
@@ -36,8 +39,5 @@ namespace MilyUnaNochesService.Contracts {
 
         [DataMember]
         public string Message { get; set; }
-
-        //[OperationContract]
-        //bool ValidateProductName(string productName);
     }
 }
