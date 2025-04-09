@@ -35,8 +35,9 @@ namespace DataBaseManager.Operations {
             try {
                 using (MilYUnaNochesEntities db = new MilYUnaNochesEntities()) {
                     var productosDb = db.Producto.ToList();
-
+                    //
                     List<Producto> productos = productosDb.Select(productoDb => new Producto {
+                        idProducto = productoDb.idProducto,
                         codigoProducto = productoDb.codigoProducto,
                         nombreProducto = productoDb.nombreProducto,
                         descripcion = productoDb.descripcion,
