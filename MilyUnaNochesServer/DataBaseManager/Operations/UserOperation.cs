@@ -516,26 +516,47 @@ namespace DataBaseManager.Operations
 
         public EmployeeData GetUserDataFromDataBase(string username, string password)
         {
-            EmployeeData dataObtained = new EmployeeData();
+            EmployeeData dataObtained = null;
             LoggerManager logger = new LoggerManager(this.GetType());
+
             try
             {
                 using (var dataBaseContext = new MilYUnaNochesEntities())
                 {
-                    
-                    
+                    var userData = (from acceso in dataBaseContext.Acceso
+                                    join empleado in dataBaseContext.Empleado on acceso.idEmpleado equals empleado.idEmpleado
+                                    join usuario in dataBaseContext.Usuario on empleado.idUsuario equals usuario.idUsuario
+                                    where acceso.usuario == username && acceso.contraseña == password
+                                    select new EmployeeData
+                                    {
+                                        idAcceso = acceso.idAcceso,
+                                        idEmpleado = empleado.idEmpleado,
+                                        tipoEmpleado = empleado.tipoEmpleado,
+                                        nombre = usuario.nombre,
+                                        primerApellido = usuario.primerApellido,
+                                        segundoApellido = usuario.segundoApellido,
+                                        correo = usuario.correo,
+                                        telefono = usuario.telefono
+                                    }).FirstOrDefault();
+
+                    dataObtained = userData ?? new EmployeeData { idEmpleado = Constants.NoDataMatches };
                 }
             }
             catch (SqlException sqlException)
             {
                 logger.LogError(sqlException);
+                dataObtained = new EmployeeData { idEmpleado = Constants.ErrorOperation };
             }
             catch (EntityException entityException)
             {
                 logger.LogFatal(entityException);
+                dataObtained = new EmployeeData { idEmpleado = Constants.ErrorOperation };
             }
+
             return dataObtained;
         }
+
+
 
     }
 }

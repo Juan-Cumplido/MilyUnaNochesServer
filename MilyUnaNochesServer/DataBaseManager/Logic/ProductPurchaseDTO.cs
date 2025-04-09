@@ -11,6 +11,7 @@ namespace DataBaseManager.Logic {
         public int IdProducto { get; set; }
         public int Cantidad { get; set; }
         public decimal MontoProducto { get; set; }
-        public string NombreProducto { get; set; }  
+        public string NombreProducto { get; set; }
+        public string CodigoProducto { get; set; }
     }
 }
