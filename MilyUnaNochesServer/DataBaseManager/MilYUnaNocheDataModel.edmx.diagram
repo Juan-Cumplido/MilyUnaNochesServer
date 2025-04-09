@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
 
-      <Diagram DiagramId="753eceedaac54443ba1c5feecae66618" Name="Diagram1" ZoomLevel="90">
+      <Diagram DiagramId="753eceedaac54443ba1c5feecae66618" Name="Diagram1" ZoomLevel="59">
 
         <EntityTypeShape EntityType="MilYUnaNochesModel.Acceso" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MilYUnaNochesModel.Cliente" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
@@ -17,7 +17,6 @@
         <EntityTypeShape EntityType="MilYUnaNochesModel.Proveedor" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
         <EntityTypeShape EntityType="MilYUnaNochesModel.Usuario" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MilYUnaNochesModel.Venta" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="MilYUnaNochesModel.VentaProducto" Width="1.5" PointX="7.5" PointY="6.375" IsExpanded="true" />
         <AssociationConnector Association="MilYUnaNochesModel.FK__Acceso__idEmplea__4316F928" ManuallyRouted="false" />
         <AssociationConnector Association="MilYUnaNochesModel.FK__Cliente__idUsuar__398D8EEE" ManuallyRouted="false" />
         <AssociationConnector Association="MilYUnaNochesModel.FK__CompraPro__idCom__5629CD9C" ManuallyRouted="false" />
@@ -27,9 +26,10 @@
         <AssociationConnector Association="MilYUnaNochesModel.FK__Proveedor__idDir__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="MilYUnaNochesModel.FK__Empleado__idUsua__3E52440B" ManuallyRouted="false" />
         <AssociationConnector Association="MilYUnaNochesModel.FK__Venta__idEmplead__4AB81AF0" ManuallyRouted="false" />
-        <AssociationConnector Association="MilYUnaNochesModel.FK__VentaProd__idPro__534D60F1" ManuallyRouted="false" />
-        <AssociationConnector Association="MilYUnaNochesModel.FK__VentaProd__idVen__52593CB8" ManuallyRouted="false" />
         <AssociationConnector Association="MilYUnaNochesModel.FK_Venta_Cliente" ></AssociationConnector>
+        <EntityTypeShape EntityType="MilYUnaNochesModel.VentaProducto" Width="1.5" PointX="7.5" PointY="7.375" />
+        <AssociationConnector Association="MilYUnaNochesModel.FK__VentaProd__idPro__534D60F1" />
+        <AssociationConnector Association="MilYUnaNochesModel.FK__VentaProd__idVen__52593CB8" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
