@@ -9,7 +9,7 @@ namespace MilyUnaNochesService.Contracts {
 
     [ServiceContract]
     public interface IReportManager {
-        #region Métodos para obtener metadatos de reportes (paginados)
+       
         [OperationContract]
         Task<List<ReportMetadata>> GetAvailableProductReportsAsync(string productCode, string periodType, int skip = 0, int take = 5);
 
@@ -21,9 +21,7 @@ namespace MilyUnaNochesService.Contracts {
 
         [OperationContract]
         Task<List<ReportMetadata>> GetAvailableProfitReportsAsync(string periodType, int skip = 0, int take = 5);
-        #endregion
-
-        #region Métodos para obtener datos completos de reportes
+        
         [OperationContract]
         Task<ProductReportData> GetProductReportDataAsync(string reportId);
 
@@ -35,9 +33,9 @@ namespace MilyUnaNochesService.Contracts {
 
         [OperationContract]
         Task<ProfitReportData> GetProfitReportDataAsync(string reportId);
-        #endregion
+        
 
-        #region Métodos auxiliares para paginación
+       
         [OperationContract]
         Task<int> GetProductReportsCountAsync(string productCode, string periodType);
 
@@ -49,15 +47,13 @@ namespace MilyUnaNochesService.Contracts {
 
         [OperationContract]
         Task<int> GetProfitReportsCountAsync(string periodType);
-        #endregion
-
-        #region Métodos adicionales para flexibilidad
+        
         [OperationContract]
         Task<List<ProductSalesDetail>> GetProductSalesDetailsAsync(string productCode, DateTime startDate, DateTime endDate);
 
         [OperationContract]
         Task<List<CategorySalesDetail>> GetCategorySalesDetailsAsync(string category, DateTime startDate, DateTime endDate);
-        #endregion
+       
     }
 
 }
