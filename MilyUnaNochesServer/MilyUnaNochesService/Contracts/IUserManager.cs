@@ -77,6 +77,10 @@ namespace MilyUnaNochesService.Contracts
         [DataMember]
         public int idUsuario { get; set; }
         [DataMember]
+        public int idAcceso { get; set; }
+        [DataMember]
+        public int idEmpleado { get; set; }
+        [DataMember]
         public string nombre { get; set; }
         [DataMember]
         public string primerApellido { get; set; }
