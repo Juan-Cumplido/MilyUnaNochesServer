@@ -29,8 +29,8 @@ namespace DataBaseManager
         public Nullable<int> idCliente { get; set; }
     
         public virtual Empleado Empleado { get; set; }
+        public virtual Cliente Cliente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VentaProducto> VentaProducto { get; set; }
-        public virtual Cliente Cliente { get; set; }
     }
 }
