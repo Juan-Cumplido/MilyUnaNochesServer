@@ -38,12 +38,14 @@ namespace DataBaseManager.Operations {
                             }
 
                             decimal unitPrice = product.precioVenta;
+                            decimal purchasePrice = product.precioCompra;
                             totalAmount += unitPrice * detail.cantidadProducto;
 
                             saleDetails.Add(new VentaProducto {
                                 idProducto = detail.idProducto,
                                 cantidadProducto = detail.cantidadProducto,
-                                montoProducto = unitPrice
+                                precioVentaHistorico = unitPrice,
+                                precioCompraHistorico = purchasePrice,
                             });
 
                             product.cantidadStock -= detail.cantidadProducto;
