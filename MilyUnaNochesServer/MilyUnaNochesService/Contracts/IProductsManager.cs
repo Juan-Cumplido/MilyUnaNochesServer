@@ -28,6 +28,15 @@ namespace MilyUnaNochesService.Contracts {
        
         [OperationContract]
         StockResponse GetProductStock(int productId);
+
+        [OperationContract]
+        bool UpdateProduct(Product product, string oldProductName);
+
+        [OperationContract]
+        bool DeleteProduct(string productName);
+
+        [OperationContract]
+        int NumProducts();
     }
     [DataContract]
     public class StockResponse {

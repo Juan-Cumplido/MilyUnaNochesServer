@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace DataBaseManager.Operations {
     public static class ProductOperation {
@@ -110,5 +112,108 @@ namespace DataBaseManager.Operations {
                 throw;
             }
         }
+        public static bool UpdateProduct(Producto producto, string oldProductName)
+        {
+            LoggerManager logger = new LoggerManager(typeof(ProductOperation));
+            bool isUpdated = false;
+
+            try
+            {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities())
+                {
+                    // Buscar el producto existente en la base de datos
+                    var existingProduct = db.Producto.FirstOrDefault(p => p.nombreProducto == oldProductName);
+                    Debug.WriteLine("HOLA");
+                    Debug.WriteLine(oldProductName);
+                    if (existingProduct != null)
+                    {
+                        Debug.WriteLine("HOLA");
+                        // Actualizar solo las propiedades modificables
+                        existingProduct.nombreProducto = producto.nombreProducto;
+                        existingProduct.codigoProducto = producto.codigoProducto;
+                        existingProduct.descripcion = producto.descripcion;
+                        existingProduct.precioCompra = producto.precioCompra;
+                        existingProduct.precioVenta = producto.precioVenta;
+                        existingProduct.categoria = producto.categoria;
+                        existingProduct.cantidadStock = producto.cantidadStock;
+                        existingProduct.imagen = producto.imagen;
+
+                        db.SaveChanges();
+                        Debug.WriteLine("HOLA");
+                        isUpdated = true;
+                    }
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                logger.LogError($"DbEntityValidationException: Error al actualizar el producto. Detalles: {string.Join(", ", ex.EntityValidationErrors.SelectMany(e => e.ValidationErrors).Select(e => e.ErrorMessage))}", ex);
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogError($"EntityException: Error al actualizar el producto. Exception: {entityException.Message}", entityException);
+            }
+            catch (Exception exception)
+            {
+                logger.LogError($"Exception: Error al actualizar el producto. Exception: {exception.Message}", exception);
+            }
+
+            return isUpdated;
+        }
+
+        public static bool DeleteProduct(string productName)
+        {
+            LoggerManager logger = new LoggerManager(typeof(ProductOperation));
+            bool isDeleted = false;
+
+            try
+            {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities())
+                {
+                    var producto = db.Producto.FirstOrDefault(p => p.nombreProducto == productName);
+
+                    if (producto != null)
+                    {
+                        db.Producto.Remove(producto);
+                        db.SaveChanges();
+                        isDeleted = true;
+                    }
+                }
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogError($"DbEntityValidationException: Error trying to delete product. Exception: {entityException.Message}", entityException);
+            }
+            catch (Exception exception)
+            {
+                logger.LogError($"Exception: Error trying to delete product. Exception: {exception.Message}", exception);
+            }
+
+            return isDeleted;
+        }
+
+        public static int NumProducts()
+        {
+            LoggerManager logger = new LoggerManager(typeof(ProductOperation));
+            int dbCount = 0;
+
+            try
+            {
+                using (MilYUnaNochesEntities db = new MilYUnaNochesEntities())
+                {
+                    dbCount = db.Producto.Count();
+                }
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogError($"DbEntityValidationException: Error comparing product counts. Exception: {entityException.Message}", entityException);
+            }
+            catch (Exception exception)
+            {
+                logger.LogError($"Exception: Error comparing product counts. Exception: {exception.Message}", exception);
+            }
+
+            return dbCount;
+        }
+
     }
 }
