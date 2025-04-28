@@ -29,28 +29,17 @@ namespace DataBaseManager.Operations {
                 using (var transaction = db.Database.BeginTransaction()) {
                     try {
                         decimal totalAmount = 0;
-                        var saleDetails = new List<VentaProducto>();
 
+                        // Primero validar todos los productos y calcular el total
                         foreach (var detail in details) {
                             var product = db.Producto.SingleOrDefault(p => p.idProducto == detail.idProducto);
                             if (product == null || product.cantidadStock < detail.cantidadProducto) {
                                 return Constants.NoDataMatches;
                             }
-
-                            decimal unitPrice = product.precioVenta;
-                            decimal purchasePrice = product.precioCompra;
-                            totalAmount += unitPrice * detail.cantidadProducto;
-
-                            saleDetails.Add(new VentaProducto {
-                                idProducto = detail.idProducto,
-                                cantidadProducto = detail.cantidadProducto,
-                                precioVentaHistorico = unitPrice,
-                                precioCompraHistorico = purchasePrice,
-                            });
-
-                            product.cantidadStock -= detail.cantidadProducto;
+                            totalAmount += product.precioVenta * detail.cantidadProducto;
                         }
 
+                        // Crear y guardar la venta primero
                         var newSale = new Venta {
                             idEmpleado = sale.idEmpleado,
                             idCliente = sale.idCliente,
@@ -61,9 +50,26 @@ namespace DataBaseManager.Operations {
                         };
 
                         db.Venta.Add(newSale);
-                        db.SaveChanges();
+                        db.SaveChanges(); // Esto asigna el idVenta
 
-                        saleDetails.ForEach(detail => detail.idVenta = newSale.idVenta);
+                        // Ahora crear los detalles con el idVenta asignado
+                        var saleDetails = new List<VentaProducto>();
+                        foreach (var detail in details) {
+                            var product = db.Producto.Single(p => p.idProducto == detail.idProducto);
+
+                            saleDetails.Add(new VentaProducto {
+                                idVenta = newSale.idVenta, // Asignar explícitamente el idVenta
+                                idProducto = detail.idProducto,
+                                cantidadProducto = detail.cantidadProducto,
+                                precioVentaHistorico = product.precioVenta,
+                                precioCompraHistorico = product.precioCompra
+                            });
+
+                            // Actualizar stock
+                            product.cantidadStock -= detail.cantidadProducto;
+                        }
+
+                        // Agregar todos los detalles de una vez
                         db.VentaProducto.AddRange(saleDetails);
                         db.SaveChanges();
 
