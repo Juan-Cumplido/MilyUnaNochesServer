@@ -4,8 +4,9 @@ namespace MilyUnaNochesService.Utilities
 {
     public class EmployeeData
     {
-
+        public int idAcceso { get; set; }
         public int idUsuario { get; set; }
+        public int idEmpleado { get; set; }
         public string nombre { get; set; }
         public string primerApellido { get; set; }
         public string segundoApellido { get; set; }
