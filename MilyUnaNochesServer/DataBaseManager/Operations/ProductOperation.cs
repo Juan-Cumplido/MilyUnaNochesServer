@@ -94,6 +94,7 @@ namespace DataBaseManager.Operations {
                 return false;
             }
         }
+
         public static bool ValidateProductName(string productName)
         {
             try
@@ -112,6 +113,7 @@ namespace DataBaseManager.Operations {
                 throw;
             }
         }
+
         public static bool UpdateProduct(Producto producto, string oldProductName)
         {
             LoggerManager logger = new LoggerManager(typeof(ProductOperation));
