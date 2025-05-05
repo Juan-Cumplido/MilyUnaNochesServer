@@ -27,14 +27,11 @@ namespace MilyUnaNochesService.Services
         public int Disconnect(UserSession user, bool isInMatch)
         {
             int resultDisconnection;
-            if (_usersConnected.Exists(userToDisconnect => userToDisconnect.usuario == user.usuario))
+            
+            if (_usersConnected.Exists(u => u.idAcceso == user.idAcceso))
             {
-                Acceso userProfile = new Acceso()
-                {
-                    usuario = user.usuario
-                };
-                _usersConnected.RemoveAll(userToDisconnect => userToDisconnect.usuario == user.usuario);
-               
+                _usersConnected.RemoveAll(u => u.idAcceso == user.idAcceso);
+
 
                 resultDisconnection = Constants.SuccessOperation;
             }
@@ -44,6 +41,7 @@ namespace MilyUnaNochesService.Services
             }
             return resultDisconnection;
         }
+
 
         public bool VerifyConnectivity(UserSession user)
         {

@@ -557,6 +557,202 @@ namespace DataBaseManager.Operations
         }
 
 
+        public EmployeeData GetEmployeeByIdUsuario(int idUsuario)
+        {
+            LoggerManager logger = new LoggerManager(this.GetType());
+            EmployeeData employee = null;
 
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                    var result = (from e in dataBaseContext.Empleado
+                                  join u in dataBaseContext.Usuario on e.idUsuario equals u.idUsuario
+                                  join d in dataBaseContext.Direccion on e.idDireccion equals d.idDireccion
+                                  where u.idUsuario == idUsuario
+                                  select new EmployeeData
+                                  {
+                                      idEmpleado = e.idEmpleado,
+                                      idUsuario = u.idUsuario,
+                                      nombre = u.nombre,
+                                      primerApellido = u.primerApellido,
+                                      segundoApellido = u.segundoApellido,
+                                      telefono = u.telefono,
+                                      correo = u.correo,
+                                      calle = d.calle,
+                                      codigoPostal = d.codigoPostal,
+                                      numero = d.numero,
+                                      ciudad = d.ciudad,
+                                      tipoEmpleado = e.tipoEmpleado
+                                  }).FirstOrDefault();
+
+                    employee = result ?? new EmployeeData { idUsuario = Constants.NoDataMatches };
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                logger.LogError(sqlException);
+                employee = new EmployeeData { idUsuario = Constants.ErrorOperation };
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogFatal(entityException);
+                employee = new EmployeeData { idUsuario = Constants.ErrorOperation };
+            }
+
+            return employee;
+        }
+
+        public int UpdateEmployeeByIdUsuario(EmployeeData updatedData)
+        {
+            LoggerManager logger = new LoggerManager(this.GetType());
+            int result = Constants.ErrorOperation;
+
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                    var usuario = dataBaseContext.Usuario.FirstOrDefault(u => u.idUsuario == updatedData.idUsuario);
+                    var empleado = dataBaseContext.Empleado.FirstOrDefault(e => e.idUsuario == updatedData.idUsuario);
+
+                    if (usuario != null && empleado != null)
+                    {
+                        usuario.nombre = updatedData.nombre;
+                        usuario.primerApellido = updatedData.primerApellido;
+                        usuario.segundoApellido = updatedData.segundoApellido;
+                        usuario.telefono = updatedData.telefono;
+                        usuario.correo = updatedData.correo;
+
+                        var direccion = dataBaseContext.Direccion.FirstOrDefault(d => d.idDireccion == empleado.idDireccion);
+                        if (direccion != null)
+                        {
+                            direccion.calle = updatedData.calle;
+                            direccion.codigoPostal = updatedData.codigoPostal;
+                            direccion.numero = updatedData.numero;
+                            direccion.ciudad = updatedData.ciudad;
+                        }
+
+                        empleado.tipoEmpleado = updatedData.tipoEmpleado;
+
+                        dataBaseContext.SaveChanges();
+                        result = Constants.SuccessOperation;
+                    }
+                    else
+                    {
+                        result = Constants.NoDataMatches;
+                    }
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                logger.LogError(sqlException);
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogFatal(entityException);
+            }
+
+            return result;
+        }
+
+        public ClientData GetClientByIdUsuario(int idUsuario)
+        {
+            LoggerManager logger = new LoggerManager(this.GetType());
+            ClientData client = null;
+
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                    var result = (from u in dataBaseContext.Usuario
+                                  where u.idUsuario == idUsuario
+                                  select new ClientData
+                                  {
+                                      
+                                      idUsuario = u.idUsuario,
+                                      nombre = u.nombre,
+                                      primerApellido = u.primerApellido,
+                                      segundoApellido = u.segundoApellido,
+                                      telefono = u.telefono,
+                                      correo = u.correo,
+                                     
+                                  }).FirstOrDefault();
+
+                    client = result ?? new ClientData { idUsuario = Constants.NoDataMatches };
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                logger.LogError(sqlException);
+                client = new ClientData { idUsuario = Constants.ErrorOperation };
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogFatal(entityException);
+                client = new ClientData { idUsuario = Constants.ErrorOperation };
+            }
+
+            return client;
+        }
+
+        public int UpdateClientByIdUsuario(ClientData updatedData)
+        {
+            LoggerManager logger = new LoggerManager(this.GetType());
+            int result = Constants.ErrorOperation;
+
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                    var usuario = dataBaseContext.Usuario.FirstOrDefault(u => u.idUsuario == updatedData.idUsuario);
+
+                    if (usuario != null)
+                    {
+                        usuario.nombre = updatedData.nombre;
+                        usuario.primerApellido = updatedData.primerApellido;
+                        usuario.segundoApellido = updatedData.segundoApellido;
+                        usuario.telefono = updatedData.telefono;
+                        usuario.correo = updatedData.correo;
+                        dataBaseContext.SaveChanges();
+                        result = Constants.SuccessOperation;
+                    }
+                    else
+                    {
+                        result = Constants.NoDataMatches;
+                    }
+                }
+            }
+            catch (SqlException sqlException)
+            {
+                logger.LogError(sqlException);
+            }
+            catch (EntityException entityException)
+            {
+                logger.LogFatal(entityException);
+            }
+
+            return result;
+        }
+
+        public int GetClientIdByUserId(int idUsuario)
+        {
+            LoggerManager logger = new LoggerManager(this.GetType());
+
+            try
+            {
+                using (var dataBaseContext = new MilYUnaNochesEntities())
+                {
+                    var cliente = dataBaseContext.Cliente
+                        .FirstOrDefault(c => c.idUsuario == idUsuario);
+
+                    return cliente.idCliente;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex);
+                return -1;
+            }
+        }
     }
 }
