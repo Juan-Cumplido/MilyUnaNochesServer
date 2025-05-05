@@ -7,11 +7,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Tests.Operations {
-    public class ProductOperationTest {
+namespace Tests.Operations
+{
+    public class ProductOperationTest
+    {
         [Fact]
-        public void SaveProductTest() {
-            var product = new Producto {
+        public void SaveProductTest()
+        {
+            var product = new Producto
+            {
                 codigoProducto = "PROD001",
                 nombreProducto = "Test Product",
                 descripcion = "Este es un producto de prueba",
@@ -19,7 +23,7 @@ namespace Tests.Operations {
                 cantidadStock = 100,
                 precioVenta = 50.00m,
                 precioCompra = 30.00m,
-                imagen = new byte[] { 0x20, 0x20 }  
+                imagen = new byte[] { 0x20, 0x20 }
             };
 
 
@@ -33,7 +37,7 @@ namespace Tests.Operations {
             var product = new Producto
             {
                 codigoProducto = "PROD002",
-                nombreProducto = null, 
+                nombreProducto = null,
                 descripcion = "Producto sin nombre",
                 categoria = "Categoría X",
                 cantidadStock = 50,
@@ -48,8 +52,10 @@ namespace Tests.Operations {
         }
 
         [Fact]
-        public void GetProductsTest() {
-            var product = new Producto {
+        public void GetProductsTest()
+        {
+            var product = new Producto
+            {
                 codigoProducto = "PROD002",
                 nombreProducto = "Test Product 2",
                 descripcion = "Otro producto de prueba",
@@ -135,7 +141,7 @@ namespace Tests.Operations {
         {
             var result = ProductOperation.GetProductByCode("NO_EXISTE");
 
-            Assert.Null(result); 
+            Assert.Null(result);
         }
 
         [Fact]
@@ -158,7 +164,7 @@ namespace Tests.Operations {
 
             bool hasStock = ProductOperation.CheckStockByCode("PROD006", 20);
 
-            Assert.True(hasStock); 
+            Assert.True(hasStock);
         }
 
         [Fact]
@@ -194,7 +200,7 @@ namespace Tests.Operations {
 
             bool isValid = ProductOperation.ValidateProductName(uniqueName);
 
-            Assert.True(isValid); 
+            Assert.True(isValid);
         }
 
         [Fact]
@@ -217,7 +223,7 @@ namespace Tests.Operations {
 
             bool isValid = ProductOperation.ValidateProductName("Producto Existente");
 
-            Assert.False(isValid); 
+            Assert.False(isValid);
         }
 
         [Fact]
@@ -276,8 +282,8 @@ namespace Tests.Operations {
             };
 
             bool result = ProductOperation.UpdateProduct(producto, "Nombre Inexistente");
-
-            Assert.False(result); 
+          
+            Assert.False(result);
         }
 
         [Fact]
@@ -311,7 +317,7 @@ namespace Tests.Operations {
         {
             bool isDeleted = ProductOperation.DeleteProduct("Producto Inexistente");
 
-            Assert.False(isDeleted); 
+            Assert.False(isDeleted);
         }
 
         [Fact]
@@ -346,7 +352,7 @@ namespace Tests.Operations {
 
             int count = ProductOperation.NumProducts();
 
-            Assert.True(count >= 2); 
+            Assert.True(count >= 2);
         }
     }
 }
