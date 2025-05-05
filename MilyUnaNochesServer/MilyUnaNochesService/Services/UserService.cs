@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using MilyUnaNochesService.Utilities;
+using MilyUnaNochesService.Logic;
+using System.Data.Entity;
 
 namespace MilyUnaNochesService.Services
 {
@@ -190,6 +192,100 @@ namespace MilyUnaNochesService.Services
 
             }
             return profileObtained;
+        }
+
+        public Contracts.Empleado GetEmployee(int idUser)
+        {
+            UserOperation operations = new UserOperation();
+            Contracts.Empleado profileObtained = new Contracts.Empleado();
+            Utilities.EmployeeData profileFromDataBase = operations.GetEmployeeByIdUsuario(idUser);
+            if (profileFromDataBase.idEmpleado != Constants.ErrorOperation && profileFromDataBase.idEmpleado != Constants.NoDataMatches)
+            {
+                profileObtained.idUsuario = profileFromDataBase.idUsuario;
+                
+                profileObtained.nombre = profileFromDataBase.nombre;
+                profileObtained.primerApellido = profileFromDataBase.primerApellido;
+                profileObtained.segundoApellido = profileFromDataBase.segundoApellido;
+                profileObtained.telefono = profileFromDataBase.telefono;
+                profileObtained.correo = profileFromDataBase.correo;
+
+                profileObtained.calle = profileFromDataBase.calle;
+                profileObtained.codigoPostal = profileFromDataBase.codigoPostal;
+                profileObtained.numero = profileFromDataBase.numero;
+                profileObtained.ciudad = profileFromDataBase.ciudad;
+                profileObtained.tipoEmpleado = profileFromDataBase.tipoEmpleado;
+
+            }
+            return profileObtained;
+        }
+
+        public int UpdateEmployee(Contracts.Empleado updatedProfile)
+        {
+            UserOperation operations = new UserOperation();
+
+            Utilities.EmployeeData employeeToUpdate = new Utilities.EmployeeData
+            {
+                idUsuario = updatedProfile.idUsuario,
+                nombre = updatedProfile.nombre,
+                primerApellido = updatedProfile.primerApellido,
+                segundoApellido = updatedProfile.segundoApellido,
+                telefono = updatedProfile.telefono,
+                correo = updatedProfile.correo,
+                calle = updatedProfile.calle,
+                codigoPostal = updatedProfile.codigoPostal,
+                numero = updatedProfile.numero,
+                ciudad = updatedProfile.ciudad,
+                tipoEmpleado = updatedProfile.tipoEmpleado
+            };
+
+            int result = operations.UpdateEmployeeByIdUsuario(employeeToUpdate);
+
+            return result;
+        }
+
+        public Contracts.Usuario GetClient(int idUser)
+        {
+            UserOperation operations = new UserOperation();
+            Contracts.Usuario profileObtained = new Contracts.Usuario();
+            Utilities.ClientData profileFromDataBase = operations.GetClientByIdUsuario(idUser);
+            if (profileFromDataBase.idUsuario != Constants.ErrorOperation && profileFromDataBase.idUsuario != Constants.NoDataMatches)
+            {
+                profileObtained.idUsuario = profileFromDataBase.idUsuario;
+
+                profileObtained.nombre = profileFromDataBase.nombre;
+                profileObtained.primerApellido = profileFromDataBase.primerApellido;
+                profileObtained.segundoApellido = profileFromDataBase.segundoApellido;
+                profileObtained.telefono = profileFromDataBase.telefono;
+                profileObtained.correo = profileFromDataBase.correo;
+
+            }
+            return profileObtained;
+        }
+
+        public int UpdateClient(Contracts.Usuario client)
+        {
+            UserOperation operations = new UserOperation();
+
+            Utilities.ClientData clientToUpdate = new Utilities.ClientData
+            {
+                idUsuario = client.idUsuario,
+                nombre = client.nombre,
+                primerApellido = client.primerApellido,
+                segundoApellido = client.segundoApellido,
+                telefono = client.telefono,
+                correo = client.correo
+            };
+
+            int result = operations.UpdateClientByIdUsuario(clientToUpdate);
+
+            return result;
+        }
+
+        public int GetClienteId(int idUsuario)
+        {
+            UserOperation operations = new UserOperation();
+            int result = operations.GetClientIdByUserId(idUsuario);
+            return result;
         }
     }
 }
