@@ -45,10 +45,10 @@ namespace MilyUnaNochesService.Contracts {
         public decimal PrecioUnitario { get; set; }
 
         [DataMember(Order = 5)]
-        public decimal PrecioCompra { get; set; } // Nuevo campo
+        public decimal PrecioCompra { get; set; }
 
         [DataMember(Order = 6)]
-        public decimal MargenGanancia { get; set; } // Nuevo campo (opcional)
+        public decimal MargenGanancia { get; set; }
 
         [DataMember(Order = 7)]
         public decimal Subtotal { get; set; }

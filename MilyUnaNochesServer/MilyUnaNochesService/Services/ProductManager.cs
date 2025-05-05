@@ -13,14 +13,31 @@ namespace MilyUnaNochesService.Services
 {
     public partial class MilyUnaNochesService : IProductsManager
     {
-        public Task<bool> CheckStockByCodeAsync(string productCode, int quantity)
-        {
-            throw new NotImplementedException();
+        public async Task<bool> CheckStockByCodeAsync(string productCode, int quantity) {
+            return await Task.Run(() => {
+                var result = ProductOperation.CheckStockByCode(productCode, quantity);
+                Console.WriteLine($"Resultado CheckStock - Código: {productCode}, Cantidad: {quantity}, Resultado: {result}");
+                return result;
+            });
         }
 
-        public Task<Product> GetProductByCodeAsync(string productCode)
-        {
-            throw new NotImplementedException();
+        public async Task<Product> GetProductByCodeAsync(string productCode) {
+            return await Task.Run(() => {
+                var producto = ProductOperation.GetProductByCode(productCode);
+                if (producto == null) return null;
+
+                return new Product {
+                    IdProducto = producto.idProducto,
+                    CodigoProducto = producto.codigoProducto,
+                    NombreProducto = producto.nombreProducto,
+                    Descripcion = producto.descripcion,
+                    Categoria = producto.categoria,
+                    Cantidad = producto.cantidadStock,
+                    PrecioVenta = producto.precioVenta,
+                    PrecioCompra = producto.precioCompra,
+                    Imagen = producto.imagen
+                };
+            });
         }
 
         public List<Product> GetProducts()
@@ -51,9 +68,25 @@ namespace MilyUnaNochesService.Services
             }
         }
 
-        public StockResponse GetProductStock(int productId)
-        {
-            throw new NotImplementedException();
+        public StockResponse GetProductStock(int productId) {
+            try {
+                using (var db = new MilYUnaNochesEntities()) {
+                    var product = db.Producto.Find(productId);
+                    if (product == null)
+                        return new StockResponse { Success = false, Message = "Producto no encontrado" };
+
+                    return new StockResponse {
+                        Success = true,
+                        Stock = product.cantidadStock,
+                        Message = $"Stock actual: {product.cantidadStock}"
+                    };
+                }
+            } catch (Exception ex) {
+                return new StockResponse {
+                    Success = false,
+                    Message = $"Error al consultar stock: {ex.Message}"
+                };
+            }
         }
 
         public bool SaveProduct(Product product)

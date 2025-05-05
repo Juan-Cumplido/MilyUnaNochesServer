@@ -47,6 +47,21 @@ namespace MilyUnaNochesService.Contracts
         [OperationContract]
         Empleado GetUserProfile(string username, string password);
 
+        [OperationContract]
+        Empleado GetEmployee(int idUser);
+
+        [OperationContract]
+        int UpdateEmployee(Empleado employee);
+
+        [OperationContract]
+        Usuario GetClient(int idUser);
+
+        [OperationContract]
+        int UpdateClient(Usuario client);
+
+        [OperationContract]
+        int GetClienteId(int idUsuario);
+
     }
 
     [DataContract]
@@ -118,6 +133,15 @@ namespace MilyUnaNochesService.Contracts
         [DataMember]
         public string contraseña { get; set; }
        
+    }
+    [DataContract]
+    public class Cliente
+    {
+        [DataMember]
+        public int idCliente { get; set; }
+        [DataMember]
+        public int idUsuario { get; set; }
+
     }
 
     [DataContract]
